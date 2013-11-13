@@ -98,6 +98,9 @@ sub difftwofile {
     my %hashbar = %{shift()} ;
     my @keysfoo = keys %hashfoo ;
     my @keysbar = keys %hashbar ;
+    print ~~@keysfoo;
+    print "\n";
+    print ~~@keysbar;
 
     # symmetric difference
     my @diff = array_diff(@keysfoo, @keysbar);
@@ -113,15 +116,15 @@ sub difftwofile {
     my @barminusfoo = array_minus( @keysbar, @keysfoo );
 
     # check if arrays contain same members
-    if ( !array_diff(@keysfoo, @keysbar) ) {
+#    if ( !array_diff(@keysfoo, @keysbar) ) {
         print $output "foo - bar\n" ;
         print $output "$_\n" for @foominusbar ;
         print $output "bar - foo\n" ;
         print $output "$_\n" for @barminusfoo ;
 
-    } else {
-        print $output "ids are same"
-    }
+#    } else {
+#        print $output "ids are same" ;
+#    }
 #    elsif ( @unique ) {
 #        print $output "unique\n";
 #        print $output "$_\n" for @unique ;
