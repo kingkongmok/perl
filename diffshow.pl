@@ -45,7 +45,7 @@ while ( <$fhfoo> ) {
         $hashfoo{$1}++ ;
         next ;
      }
-    print $output "foo string error:\t", $., $_ ;
+    print $output "foo string error:\tline: ", $., "\t", $_ ;
 }
 
 
@@ -69,11 +69,11 @@ sub getbarid {
 my %hashbar ;
 while ( <$fhbar> ) {
     #$hashbar{$1}++ if /^(\d+)\s/;
-    if ( /^(\d+)\s/ ) {
+    if ( /^(\d+)\W/ ) {
         $hashbar{$1}++ ;
         next ;
     }
-    print $output "bar string error:\t", $., $_ ;
+    print $output "bar string error:\tline: ", $., "\t", $_ ;
 }
 #-------------------------------------------------------------------------------
 #  print the hash
@@ -98,9 +98,8 @@ sub difftwofile {
     my %hashbar = %{shift()} ;
     my @keysfoo = keys %hashfoo ;
     my @keysbar = keys %hashbar ;
-    print ~~@keysfoo;
-    print "\n";
-    print ~~@keysbar;
+    print $output "foo validated number: ", ~~@keysfoo, "\n";
+    print $output "bar validated number: ", ~~@keysbar, "\n";
 
     # symmetric difference
     my @diff = array_diff(@keysfoo, @keysbar);
