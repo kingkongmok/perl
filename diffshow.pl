@@ -53,11 +53,11 @@ while ( <$fhfoo> ) {
 #  print the hash
 #-------------------------------------------------------------------------------
 
-print $output "count for foo\n";
-while ( my ($k,$v) = each %hashfoo ) {
-#    print $k , "\n" if $v == 1 ;
-    print $output $k , "\t", $v,  "\n";
-}
+#print $output "count for foo\n";
+#while ( my ($k,$v) = each %hashfoo ) {
+##    print $k , "\n" if $v == 1 ;
+#    print $output $k , "\t", $v,  "\n";
+#}
 return %hashfoo
 } ## --- end sub getfooid
 
@@ -78,10 +78,10 @@ while ( <$fhbar> ) {
 #-------------------------------------------------------------------------------
 #  print the hash
 #-------------------------------------------------------------------------------
-print $output "count for bar\n";
-while ( my ($k, $v) = each %hashbar ) {
-    print $output $k , "\t", $v,  "\n";
-}
+#print $output "count for bar\n";
+#while ( my ($k, $v) = each %hashbar ) {
+#    print $output $k , "\t", $v,  "\n";
+#}
     return %hashbar;
 } ## --- end sub getbarid
 
@@ -116,8 +116,8 @@ sub difftwofile {
 
     # check if arrays contain same members
 #    if ( !array_diff(@keysfoo, @keysbar) ) {
-        print $output "foo - bar\n" ;
-        print $output "$_\n" for @foominusbar ;
+#        print $output "foo - bar\n" ;
+#        print $output "$_\n" for @foominusbar ;
         print $output "bar - foo\n" ;
         print $output "$_\n" for @barminusfoo ;
 
