@@ -33,6 +33,9 @@ while ( <$fhfoo> ) {
 #    next if /CAE_POINT/;
 #    print $1 if /(?=HJCOM.*==)(\d+?)(?<=\s)/;
      #$hashfoo{$1}++ if /T200P(\d+)\s/;
+     if ( /CAE_POINT/ ){
+        next ;
+     };
      if ( /T200P(\d+)\s/ ){
         $hashfoo{$1}++;
         next ;
@@ -42,17 +45,19 @@ while ( <$fhfoo> ) {
         $hashfoo{$1}++ ;
         next ;
      }
-    print $output "foo input error:\t", $_ ;
+    print $output "foo string error:\t", $., $_ ;
 }
 
 
 #-------------------------------------------------------------------------------
 #  print the hash
 #-------------------------------------------------------------------------------
-#while ( my ($k,$v) = each %hashfoo ) {
-##    print $k , "\n" if $v == 1 ;
-#    print $k , "\t", $v,  "\n";
-#}
+
+print $output "count for foo\n";
+while ( my ($k,$v) = each %hashfoo ) {
+#    print $k , "\n" if $v == 1 ;
+    print $output $k , "\t", $v,  "\n";
+}
 return %hashfoo
 } ## --- end sub getfooid
 
@@ -68,14 +73,15 @@ while ( <$fhbar> ) {
         $hashbar{$1}++ ;
         next ;
     }
-    print $output "foo input error:\t", $_ ;
+    print $output "bar string error:\t", $., $_ ;
 }
 #-------------------------------------------------------------------------------
 #  print the hash
 #-------------------------------------------------------------------------------
-#while ( my ($k, $v) = each %hashbar ) {
-#    print $k , "\t", $v,  "\n";
-#}
+print $output "count for bar\n";
+while ( my ($k, $v) = each %hashbar ) {
+    print $output $k , "\t", $v,  "\n";
+}
     return %hashbar;
 } ## --- end sub getbarid
 
@@ -87,10 +93,41 @@ my%barresult = &getbarid ;
 
 
 sub difftwofile {
+    use Array::Utils qw(:all);
     my	%hashfoo = %{shift()};
     my %hashbar = %{shift()} ;
+    my @keysfoo = keys %hashfoo ;
+    my @keysbar = keys %hashbar ;
 
-    print keys %hashbar ;
+    # symmetric difference
+    my @diff = array_diff(@keysfoo, @keysbar);
+
+    # intersection
+    my @isect = intersect(@keysfoo, @keysbar);
+
+    # unique union
+    my @unique = unique(@keysfoo, @keysbar);
+
+    # get items from array @keysfoo that are not in array @keysbar
+    my @foominusbar = array_minus( @keysfoo, @keysbar );
+    my @barminusfoo = array_minus( @keysbar, @keysfoo );
+
+    # check if arrays contain same members
+    if ( !array_diff(@keysfoo, @keysbar) ) {
+        print $output "foo - bar\n" ;
+        print $output "$_\n" for @foominusbar ;
+        print $output "bar - foo\n" ;
+        print $output "$_\n" for @barminusfoo ;
+
+    } else {
+        print $output "ids are same"
+    }
+#    elsif ( @unique ) {
+#        print $output "unique\n";
+#        print $output "$_\n" for @unique ;
+#    }
+
+
 
     return ;
 } ## --- end sub difftwofile
