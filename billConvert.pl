@@ -18,7 +18,7 @@
 #     REVISION: ---
 #===============================================================================
 
-#use strict;
+use strict;
 use warnings;
 
     use Text::CSV;
@@ -28,7 +28,7 @@ my %hash ;
     #my $csv = Text::CSV->new({binary=>1});
     my $csv = Text::CSV->new();
 
-open $output , "> /home/kk/Downloads/test.txt";
+open my $output , "> /home/kk/Downloads/billConvert_output.txt";
     open (CSV, "<:encoding(gbk)", $file) or die $!;
     my $linecount;
     while (<CSV>) {
@@ -38,7 +38,7 @@ open $output , "> /home/kk/Downloads/test.txt";
             if (  $columns[11] =~ /(\d+)\D+$/ ){
 #                print $1, "\t", $columns[6] + $columns[7],"\n" ;
                 if ( exists $hash{$1} ) {
-                    $hash{$1} = sprintf("%s\t%d",$hash{$1} ,  $columns[6] + $columns[7]) ;     
+                    $hash{$1} = sprintf("%s\t%.2f",$hash{$1} ,  $columns[6] + $columns[7]) ;     
                 } else {
                     $hash{$1} = $columns[6] + $columns[7] ; 
                 }
@@ -46,7 +46,7 @@ open $output , "> /home/kk/Downloads/test.txt";
                 if ( $columns[2] =~ /T200P(\d+)/ ) {
 #                    print $1, "\t", $columns[6] + $columns[7],"\n" ;
                 if ( exists $hash{$1} ) {
-                    $hash{$1} = sprintf("%s\t%d",$hash{$1} ,  $columns[6] + $columns[7]) ;     
+                    $hash{$1} = sprintf("%s\t%.2f",$hash{$1} ,  $columns[6] + $columns[7]) ;     
                 } else {
                     $hash{$1} = $columns[6] + $columns[7] ; 
                 }
