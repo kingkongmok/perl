@@ -28,7 +28,22 @@ sub openfile {
     return @filelines;
 } ## --- end sub openfile
 
+sub splitcsv {
+    my @file = @{shift()};
+    foreach my $line ( @file ) {
+        if ( $line =~ /^"(.*)"$/ ) {
+            my @F = split /","/,$1 ;
+            if ( $F[10] ) {
+                print $F[10];
+            }
+        }
+    }
+    
+    return ;
+} ## --- end sub splitcsv
+
 my @filelines = &openfile ;
+my @splitedfile = &splitcsv(\@filelines) ;
 
 
 
