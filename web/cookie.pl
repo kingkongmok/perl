@@ -25,11 +25,11 @@ use CGI::Carp qw/fatalsToBrowser/;
 
 use CGI;
 use CGI::Cookie;
-#use CGI::Cookie qw/fetch/;
 
 my %prefs = (
 size=>"big",
 colors=>"red",
+address=>"guangzhou",
 );
 
 my $c = CGI::Cookie->new(
@@ -44,8 +44,14 @@ my $c = CGI::Cookie->new(
 my $cookiefetch = CGI::Cookie->fetch;
 
 my $q = new CGI;
-print $q->header(-cookie=> $c );
 
-while ( my($k,$v)=each$cookiefetch ) {
-    print "$k" ;
+if ( $cookiefetch ) {
+    print $q->header();
+    while ( my($k,$v)=each$cookiefetch ) {
+        print "$k" ;
+        print "\nyou like $v\n\n" ;
+    }
+} else {
+    print $q->header(-cookie=> $c);
 }
+
