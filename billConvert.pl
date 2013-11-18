@@ -21,6 +21,7 @@
 use strict;
 use warnings;
 use Text::CSV;
+use File::Temp qw/ tempfile tempdir/;
 
 #my $file = "/home/kk/Downloads/bill.utf8.csv" || die "$!";
 #my $csv = Text::CSV->new ({ binary => 1, });
@@ -30,7 +31,8 @@ my $csv = Text::CSV->new({binary=>1});
 open FH, "< /home/kk/Downloads/bill.utf8.csv" || die "$!" ;
 my@file=readline(FH);
 
-open OUT, "> /tmp/test.file";
+my ($fh, $filename) = tempfile();
+open $fh, "> $filename";
 #my @catalogs = ("天猫佣金（类目）",);
 
 my %result;
@@ -49,22 +51,6 @@ my %catalogs = (
 #"线上支付服务费——信用卡快捷支付"
 "代扣返点积分"=>"代扣交易退回积分",
 );
-
-##-------------------------------------------------------------------------------
-##  get aoa
-##-------------------------------------------------------------------------------
-#my @fileAoA;
-#foreach my $aoa1 ( @file ) {
-#    $aoa1 =~ s/(?<=[^"])(\,)/",/g;
-#    $aoa1 =~ s/(\,)(?=[^"])/,"/g;
-#    $aoa1 =~ s/^"//;
-#    $aoa1 =~ s/"$//;
-#    my @F = split/","/, $aoa1;
-#    foreach my $aoa2 ( @F ) {
-#        $fileAoA[$aoa1][$aoa2]=$_;
-#    }
-#    
-#}
 
 
     for ( @file ) {
@@ -111,9 +97,6 @@ my %catalogs = (
             }
             else {
             }
-#    if ( $targetString =~ /$catalog/ ) {
-#        $result{$catalogs{$catalog}}++ ;
-#    }
         }
 
 }
