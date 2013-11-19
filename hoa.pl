@@ -29,15 +29,23 @@ simpsons:    homer marge bart
 simpsons:    kk kingkong
 ";
 
-#print $string ;
+
+my%hoa=&gethoa($string);
+
+for (&showhoaelements(\%hoa)){
+    local $\="\n";
+    print ;
+};
+
 
 
 #===  FUNCTION  ================================================================
 #         NAME: gethoa
-#      PURPOSE: 
+#      PURPOSE: get %hoa from the string.
 #   PARAMETERS: $string
 #      RETURNS: %hoa
 #  DESCRIPTION: string split by /:/ and make prefix as key, suffix as [values].
+#               if $hoa{key} exists, joins the values to the [values];
 #       THROWS: no exceptions
 #     COMMENTS: none
 #     SEE ALSO: n/a #=============================================================================== 
@@ -46,34 +54,30 @@ sub gethoa {
     my	( $par1 )	= @_;
     foreach my$line ( split/\n/,$par1 ) {
         next if $line =~ /^$/ ;
-        my @lineelement = split /:\s+/,$line;
-        if ( exists $hoa{$lineelement[0]} ) {
-            foreach ( split/\s+/,$lineelement[1] ) {
-                $hoa{$lineelement[0]}=[split/\s+/,($lineelement[1], join" ",$hoa{$lineelement[0]})] ;
+        if ( $line=~/(.+?):\s+(.+)/ ) {
+            my$k=$1;
+            my$v=$2;
+            if ( exists$hoa{$k} ) {
+                my@temp=@{$hoa{$k}};
+                my@preresult=&joinarray(\@temp,$v);
+                $hoa{$k}=[@preresult] ;
             }
-        }
-        else {
-            $hoa{$lineelement[0]}=[split/\s+/,$lineelement[1]] ;
+            else {
+                $hoa{$k}=[split/\s+/,$v];
+            }
         }
     }
 
-#    use Data::Dumper;
-#    print Dumper(\%hoa);
 
     return %hoa;
 } ## --- end sub gethoa
-
-print Dumper(&gethoa($string));
-my%hoa=&gethoa($string);
-
-print join"\t", &showhoaelements(\%hoa);
 
 #===  FUNCTION  ================================================================
 #         NAME: showhoaelements
 #      PURPOSE: get  
 #   PARAMETERS: %hoa
 #      RETURNS: @array
-#  DESCRIPTION: get %hoa values and push these into @array
+#  DESCRIPTION: get all %hoa values and push all of these into @array
 #       THROWS: no exceptions
 #     COMMENTS: none
 #     SEE ALSO: n/a
@@ -89,3 +93,22 @@ sub showhoaelements {
     }
     return @array;
 } ## --- end sub showhoaelements
+
+#===  FUNCTION  ================================================================
+#         NAME: joinarray
+#      PURPOSE: join elements to array
+#   PARAMETERS: @array, $elements
+#      RETURNS: @newarray
+#  DESCRIPTION: split the elements with space then push to the array
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+sub joinarray {
+    my	@array = @{shift()};
+    my	$elements = shift;
+    foreach my $element ( split/\s+/,$elements ) {
+        push @array,$element;
+    }
+    return @array ;
+} ## --- end sub joinarray
