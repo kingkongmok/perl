@@ -34,7 +34,8 @@ simpsons:    fred kingkong
 
 my%hoh;
 %hoh=&strToHoh($string);
-&tocsv(\%hoh);
+#&tocsv(\%hoh);
+&toxls(\%hoh);
 
 
 
@@ -93,3 +94,55 @@ sub tocsv {
     }
     return 1;
 } ## --- end sub tocsv
+
+
+#===  FUNCTION  ================================================================
+#         NAME: toxls
+#      PURPOSE: output as xls
+#   PARAMETERS: %hoh
+#      RETURNS: 
+#  DESCRIPTION: outout as xls, print hoh's key as row and hashs' key as column.
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+sub toxls {
+    my	%hoh = %{shift()};
+    print "BEGIN";
+#    while ( my($hohkeys,$hohvalues)=each%hoh ) {
+#        print "\t$hohkeys" ;
+#        
+#    }
+
+    my@rows;
+    my@columns;
+    my%temp;
+    foreach my $hohkeys ( sort keys %hoh ) {
+        print "\t$hohkeys" ;
+        push @rows,$hohkeys ;
+    }
+    print "\n";
+    foreach my $hohkeys ( sort keys %hoh ) {
+        foreach my $keys ( sort keys %{$hoh{$hohkeys}} ) {
+            push @columns, $keys;
+        }
+    }
+    @temp{ @columns }=();
+    my@column = keys%temp;
+    @temp{ @rows }=();
+    my@row = keys%temp;
+    foreach my $hohkeys ( sort keys %hoh ) {
+        print "$hohkeys," ;
+        foreach my $r ( @row ) {
+            if ( $hoh{$hohkeys}{$r} ) {
+                print "$hoh{$hohkeys}{$r}," ;
+            }
+            else {
+                print "0," ;
+            }
+        }
+        print "\n" ;
+    }
+#    return ;
+} ## --- end sub toxls
+
