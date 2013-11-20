@@ -108,34 +108,29 @@ sub tocsv {
 #===============================================================================
 sub toxls {
     my	%hoh = %{shift()};
+    #local $\="\n";
     print "BEGIN";
-#    while ( my($hohkeys,$hohvalues)=each%hoh ) {
-#        print "\t$hohkeys" ;
-#        
-#    }
-
     my@rows;
     my@columns;
-    my%temp;
+    my%temp0;
+    my%temp1;
     foreach my $hohkeys ( sort keys %hoh ) {
-        print "\t$hohkeys" ;
+        print ",$hohkeys" ;
         push @rows,$hohkeys ;
-    }
-    print "\n";
-    foreach my $hohkeys ( sort keys %hoh ) {
-        foreach my $keys ( sort keys %{$hoh{$hohkeys}} ) {
+        foreach my $keys ( sort keys $hoh{$hohkeys} ){
             push @columns, $keys;
         }
     }
-    @temp{ @columns }=();
-    my@column = keys%temp;
-    @temp{ @rows }=();
-    my@row = keys%temp;
-    foreach my $hohkeys ( sort keys %hoh ) {
-        print "$hohkeys," ;
-        foreach my $r ( @row ) {
-            if ( $hoh{$hohkeys}{$r} ) {
-                print "$hoh{$hohkeys}{$r}," ;
+    print "\n";
+    @temp0{ @columns }=();
+    my@column = keys%temp0;
+    @temp1{ @rows }=();
+    my@row = keys%temp1;
+    foreach my $row ( @row ) {
+        print "$row," ;
+        foreach my $column ( @column ) {
+            if ( $hoh{$row}{$column} ) {
+                print "$hoh{$row}{$column}" ;
             }
             else {
                 print "0," ;
@@ -143,6 +138,6 @@ sub toxls {
         }
         print "\n" ;
     }
-#    return ;
+    return ;
 } ## --- end sub toxls
 
