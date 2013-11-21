@@ -27,22 +27,17 @@ use CGI::Cookie;
 
 my $cgi = new CGI;
 my $session = new CGI::Session ;
-#my $cookie = CGI::Cookie->new(
-
-
 
 if ( $cgi->param ) {
-if ( my %fetchcookie = CGI::Cookie->fetch ) {
-    print $cgi->header,
-    $fetchcookie{"name"};
+    if ( my %fetchcookie = CGI::Cookie->fetch ) {
+        print $cgi->header,
+       %fetchcookie;
+    }
+    else {
+        my $cookie = new CGI::Cookie(
+        -name => "kk",
+        -value => "mok",
+        ) ; 
+        print $cgi->header, $cgi->p("hello stranger");
+    }
 }
-else {
-my $cookie = new CGI::Cookie(
--name => "kk",
--value => "mok",
-) ; 
-print $cgi->header, $cgi->p("hello stranger");
-}
-}
-
-
