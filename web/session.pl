@@ -27,7 +27,7 @@ use CGI::Carp qw/fatalsToBrowser/;
 
 my $cgi = new CGI;
 my $session = new CGI::Session(undef, $cgi, {Directory=>'/tmp'});
-$session->expire(10);
+$session->expire(20);
 
 
 if ( $session->param("name") ) {
@@ -47,6 +47,4 @@ else {
     else {
         print $session->header(), "welcome stranger, please loggin.\n" ;
     }
-
-
 }

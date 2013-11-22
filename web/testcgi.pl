@@ -25,10 +25,7 @@ use CGI;
 use CGI::Carp qw/fatalsToBrowser/;
 
 my$q=new CGI;
-my $name = "<script><!--
-alert("Give me your money");
---></script></p>
-";
+my $name = "kk";
 print $q->header(),
     $q->start_html("hello world!"),
     $q->p($q->escapeHTML("hello $name"));
