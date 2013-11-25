@@ -21,10 +21,11 @@
 #use strict;
 #use warnings;
 
-open F1,"<","/home/kk/1";
-open F2,"<","/home/kk/2";
+open F1,"<","/home/kk/1" || die "$!";
+open F2,"<","/home/kk/2"|| die $! ;
 
 chomp(my@a=<F1>);
 chomp(my@b=<F2>);
 
- map {($a[$_], $b[$_])} ~~@a
+ my @array =  map {($a[$_], $b[$_])} ~~@a ;
+ print @array ;

@@ -21,6 +21,5 @@
 #use strict;
 #use warnings;
 #
-system "source /tmp/test.sh" ;
 
-print $NAME ;
+print "$_\n" for @INC ;
