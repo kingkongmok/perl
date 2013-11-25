@@ -21,6 +21,17 @@
 use strict;
 use warnings;
 
+#===  FUNCTION  ================================================================
+#         NAME: display
+#      PURPOSE: print from STDIN
+#   PARAMETERS: ????
+#      RETURNS: ????
+#  DESCRIPTION: ????
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+sub display {
 my@array;
 while ( <> ) {
     while ( /(.)/g ) {
@@ -29,10 +40,30 @@ while ( <> ) {
             last ;
         }
     }
-
     print $_ unless grep {$.==$_} @array ;
-
 }
+    return ;
+} ## --- end sub display
 
 
+#===  FUNCTION  ================================================================
+#         NAME: printall
+#      PURPOSE: print ord 0 ~ 256
+#   PARAMETERS: ????
+#      RETURNS: ????
+#  DESCRIPTION: ????
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+sub printall {
+    my @array = 0..256 ;
+    
+    foreach my $element ( @array ) {
+        print "$element => ", chr($element), "\n" ;
+    }
+    return ;
+} ## --- end sub printall
 
+&printall ;
+&display ;
