@@ -5,7 +5,7 @@
 #
 #        USAGE: ./comm.pl  
 #
-#  DESCRIPTION: 
+#  DESCRIPTION: to extract the common string from two string 
 #
 #      OPTIONS: ---
 # REQUIREMENTS: ---
