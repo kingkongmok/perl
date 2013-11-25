@@ -3,7 +3,7 @@
 #
 #         FILE: MyModule.pm
 #
-#  DESCRIPTION: 
+#  DESCRIPTION: http://www.perlmonks.org/?node_id=102347
 #
 #        FILES: ---
 #         BUGS: ---
