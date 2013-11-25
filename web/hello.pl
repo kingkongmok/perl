@@ -20,19 +20,20 @@
 
 use strict;
 use warnings;
-
-
-use CGI qw(:standard);
+use CGI;
 use CGI::Carp qw(fatalsToBrowser);
-print header, start_html("Hello"), h1("Hello");
-if (param())    {
-    my $who  = param("myname");
-    print p("Hello, your name is $who");
+
+my $q = new CGI ;
+
+print $q->header , $q->start_html;
+
+    
+if ( my $username = $q->param("name") ) {
+    print $q->p("welcome, $username!") ;
 }
-else    {
-    print start_form();         
-    print p("What's your name? ", textfield("myname"));
-    print p(submit("Submit form"), reset("Clear form"));
-    print end_form();
+else {
+    print $q->p("welcome, stranger!") ;;
 }
-print end_html;     
+
+print $q->end_html ;
+
