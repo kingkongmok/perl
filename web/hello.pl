@@ -24,12 +24,13 @@ use CGI;
 use CGI::Carp qw(fatalsToBrowser);
 
 my $q = new CGI ;
+chomp(my $hostname = qx/hostname -f/);
 
-print $q->header , $q->start_html;
+print $q->header(-charset=>"utf-8"), $q->start_html;
 
     
 if ( my $username = $q->param("name") ) {
-    print $q->p("welcome, $username!") ;
+    print $q->p("Hi $username, welcome to $hostname\.") ;
 }
 else {
     print $q->p("welcome, stranger!") ;;
