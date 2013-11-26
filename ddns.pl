@@ -23,6 +23,9 @@ use warnings;
 
 use password ;
 
+my%password=&getpassword;
 
+#system('echo "http://$password{us}{username}:$password{kk}{password}@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org"');
+my $command = qq#curl "http://$password{us}{username}:$password{kk}{password}\@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org > /dev/null "#;
 
-#curl "http://kingkongmok:whatisup@members.3322.org/dyndns/update?system=dyndns&hostname=kingkongmok.3322.org&mx=kingkongmok.3322.org"
+system("$command");
