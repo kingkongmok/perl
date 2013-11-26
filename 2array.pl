@@ -27,7 +27,6 @@ my%k;
 my%h;
 while ( <F2A> ) {
     (my$c1, my$c2)=split;
-    
     if ( $k{$c1}++ ) {
         $h{$c1}=$h{$c1} > $c2? $h{$c1} : $c2 ;
     }
@@ -35,7 +34,6 @@ while ( <F2A> ) {
         $h{$c1}=$c2 ;        
     }
 }
-
 
 while ( (my$k,my$v)=each%h ) {
     print "$k\t$v\n" ;
