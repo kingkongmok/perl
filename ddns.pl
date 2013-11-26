@@ -20,12 +20,13 @@
 
 use strict;
 use warnings;
+use lib "/home/kk/workplace/perl" ;
 
 use password ;
 
 my%password=&getpassword;
 
 #system('echo "http://$password{us}{username}:$password{kk}{password}@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org"');
-my $command = qq#curl -q "http://$password{us}{username}:$password{kk}{password}\@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org" >/dev/null 2>&1#;
+my $command = qq#curl -q "http://$password{us}{username}:$password{kk}{password}\@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org" > /dev/null 2>&1#;
 
 system("$command");
