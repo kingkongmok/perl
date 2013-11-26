@@ -20,7 +20,7 @@ use warnings;
  
 
 #===  FUNCTION  ================================================================
-#         NAME: passwd
+#         NAME: getpassword
 #      PURPOSE: get username, passwod and so on
 #   PARAMETERS: 
 #      RETURNS: %passwd
@@ -29,12 +29,27 @@ use warnings;
 #     COMMENTS: none
 #     SEE ALSO: n/a
 #===============================================================================
-sub passwd {
+sub getpassword {
+    my %password ;
     open FH, "< /home/kk/.kk_var" || die $! ;
-    while ( <FH> ) {
-        print ;
+    my @file = readline FH ;
+    foreach my $line ( @file ) {
+        if ( $line =~ /COMMON_USERNAME=(\S+)/ ) {
+            $password{kk}{username}=$1 ;
+            next ;
+        }
+        if ( $line =~ /COMMON_PASSWORD=(\S+)/ ) {
+            $password{kk}{password}=$1 ;
+        }
+        if ( $line =~ /COMMON_WEBUSERNAME=(\S+)/ ) {
+            $password{us}{username}=$1 ;
+        }
+        if ( $line =~ /US_SERVER_ADDRESS=(\S+)/ ) {
+            $password{us}{address}=$1 ;
+        }
+        
     }
-    return ;
+    return %password;
 } ## --- end sub passwd
 
-&passwd ;
+1 ;
