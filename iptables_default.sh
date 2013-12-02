@@ -10,7 +10,7 @@
 PUB_ETH="eth0"
 
 # enable the following port ONLY.
-TCP_PORT=( 1:1024 2049)
+TCP_PORT=( 1:1024 4000 2049)
 
 # enable the following port ONLY.
 UDP_PORT=( 1:1024 )

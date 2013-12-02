@@ -20,13 +20,35 @@
 
 use strict;
 use warnings;
+
 use lib "/home/kk/workplace/perl" ;
-
 use password ;
-
 my%password=&getpassword;
 
-#system('echo "http://$password{us}{username}:$password{kk}{password}@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org"');
-my $command = qq#curl -q "http://$password{us}{username}:$password{kk}{password}\@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org" > /dev/null 2>&1#;
+my $result = qx#curl -q "http://$password{us}{username}:$password{kk}{password}\@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org" 2>/dev/null #;
 
-system("$command");
+#print $result ;
+
+
+#===  FUNCTION  ================================================================
+#         NAME: validate3322
+#      PURPOSE: validate 3322's html result
+#   PARAMETERS: ????
+#      RETURNS: ????
+#  DESCRIPTION: ????
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+sub validate3322 {
+    my $result = shift ;
+    if ( $result =~ /(good|nochg)\s+\d+(\.\d+){3}/ ) {
+        return 1 ;
+    }
+    return 0;
+} ## --- end sub validate3322
+
+eval {
+    &validate3322($result) ;
+} || print $@ ;
+
