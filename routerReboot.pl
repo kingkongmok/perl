@@ -25,20 +25,69 @@ use lib "/home/kk/workspace/perl" ;
 use password ;
 my%password=&getpassword;
 
-qx#curl -q "http://$password{kk}{username}:$password{kk}{password}\@192.168.1.1/userRpm/StatusRpm.htm?Disconnect=%B6%CF%20%CF%DF&wan=1" >/dev/null 2>&1# ;
 
-qx#curl -q "http://$password{kk}{username}:$password{kk}{password}\@192.168.1.1/userRpm/StatusRpm.htm?Connect=%C1%AC%20%BD%D3&wan=1" >/dev/null 2>&1# ;
+#===  FUNCTION  ================================================================
+#         NAME: rebootRouter
+#      PURPOSE: reboot the router using curl
+#   PARAMETERS: ????
+#      RETURNS: ????
+#  DESCRIPTION: ????
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+sub rebootRouter {
+    while ( 1 ) {
+        my $htmlresult = qx#curl -q "http://$password{kk}{username}:$password{kk}{password}\@192.168.1.1/userRpm/StatusRpm.htm?Disconnect=%B6%CF%20%CF%DF&wan=1" 2>/dev/null # ;
+        if ( $htmlresult =~ /You have no authority to access this router/ ) {
+            last ;
+        }
+        else {
+            sleep 1 ;
+        }
+    } 
+
+    while ( 1 ) {
+        my $htmlresult = qx#curl -q "http://$password{kk}{username}:$password{kk}{password}\@192.168.1.1/userRpm/StatusRpm.htm?Connect=%C1%AC%20%BD%D3&wan=1" 2>/dev/null # ;
+        if ( $htmlresult =~ /You have no authority to access this router/ ) {
+            last ;
+        }
+        else {
+            sleep 1 ;
+        }
+    } 
+#    print "router is rebooted.\n" ;
+    return 1 ;
+} ## --- end sub rebootRouter
 
 
-my $ping ;
-do {
-    $ping = system("ping -q -c1 google.com > /dev/null");
-    sleep 3 ;
-} while ( $ping );				# -----  end do-while  -----
-#
+#-------------------------------------------------------------------------------
+#  check if online using ping, if .
+#-------------------------------------------------------------------------------
+my $pingtimes = 0 ;
+while ( 1 ) {
+#    print "ping $pingtimes times...\n" ;
+    if ( $pingtimes % 30 == 0 ) {
+        &rebootRouter ;    
+    }
+    $pingtimes++ ;
+    my $pingresult = system("ping -q -c1 google.com > /dev/null");
+    if ( $pingresult == 0 ) {
+#        print "network is on.\n" ;
+        last ;
+    }
+    else {
+        sleep 3 ;
+    }
+}
 
-my $update;
-do {
-    $update=qx#curl -q "http://$password{us}{username}:$password{kk}{password}\@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org" > /dev/null 2>&1#;
-    sleep 1 ;
-} while ( $update );				# -----  end do-while  -----
+while ( 1 ) {
+    my $htmlresult = qx#curl -q "http://$password{us}{username}:$password{kk}{password}\@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org" 2>/dev/null #;
+    if ( $htmlresult =~ /(good|nochg)\s+\d+(\.\d+){3}/ ) {
+#        print "$htmlresult" ;
+        last ;
+    }
+    else {
+        sleep 2 ;
+    }
+} 
