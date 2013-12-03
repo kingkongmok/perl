@@ -25,12 +25,10 @@ use lib "/home/kk/workspace/perl" ;
 use password ;
 my%password=&getpassword;
 
-qx#curl -q "http://$password{kk}{username}:$password{kk}{password}\@192.168.1.1/userRpm/StatusRpm.htm?Disconnect=%B6%CF%20%CF%DF&wan=1" # ;
-if ( qx#curl -q "http://$password{kk}{username}:$password{kk}{password}\@192.168.1.1/userRpm/StatusRpm.htm?Disconnect=%B6%CF%20%CF%DF&wan=1" >/dev/null 2>&1# ) {
-}
+qx#curl -q "http://$password{kk}{username}:$password{kk}{password}\@192.168.1.1/userRpm/StatusRpm.htm?Disconnect=%B6%CF%20%CF%DF&wan=1" >/dev/null 2>&1# ;
 
-if ( qx#curl -q "http://$password{kk}{username}:$password{kk}{password}\@192.168.1.1/userRpm/StatusRpm.htm?Connect=%C1%AC%20%BD%D3&wan=1" >/dev/null 2>&1# ) {
-}
+qx#curl -q "http://$password{kk}{username}:$password{kk}{password}\@192.168.1.1/userRpm/StatusRpm.htm?Connect=%C1%AC%20%BD%D3&wan=1" >/dev/null 2>&1# ;
+
 
 my $ping ;
 do {
