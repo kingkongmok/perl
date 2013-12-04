@@ -5,7 +5,7 @@
 #
 #        USAGE: ./getopt.pl  
 #
-#  DESCRIPTION: test Getopt::Long funtion. 
+#  DESCRIPTION: test Getopt funtions. the Std may be easy to use as below 
 #
 #      OPTIONS: ---
 # REQUIREMENTS: ---
