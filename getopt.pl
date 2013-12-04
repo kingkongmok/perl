@@ -21,15 +21,40 @@
 use strict;
 use warnings;
 
-use Getopt::Long;
-my %opts = (parameter => 20);
-GetOptions( \%opts, 
-        'p|parameter=i', 
-        'o|outputfile=s',
-        'i|inputfile=s'
-) or die "Invalid parameters!";
+#use Getopt::Long;
+#my %opts = (parameter => 20);
+#GetOptions( \%opts, 
+#        'p|parameter=i', 
+#        'o|outputfile=s',
+#        'i|inputfile=s'
+#) or die "Invalid parameters!";
+#
+#
+#use Data::Dumper;
+#print Dumper(%opts);
 
+use Getopt::Std;
+getopts('dn:a:');
+our($opt_d, $opt_n, $opt_a);
 
-use Data::Dumper;
-print Dumper(%opts);
+if($opt_d)
+{
+  print "Debugging mode\n";
+}
 
+if(!$opt_n && !$opt_a)
+{
+  print "USAGE:\n\texample6 [-d] -n name -a age\n";
+  exit;
+}
+
+else
+{
+  if($opt_d)
+  {
+    print "Forming string\n";
+  }
+
+  my $output = "$opt_n is $opt_a years old\n";
+  print $output;
+}
