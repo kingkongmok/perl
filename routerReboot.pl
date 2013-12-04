@@ -21,7 +21,7 @@
 use strict;
 use warnings;
 
-use lib "/home/kk/workspace/perl" ;
+use lib '/home/kk/workplace/perl' ;
 use password ;
 my%password=&getpassword;
 
