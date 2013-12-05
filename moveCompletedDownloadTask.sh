@@ -23,6 +23,9 @@ set -o nounset                              # Treat unset variables as an error
 
 #set -x
 
+#-------------------------------------------------------------------------------
+#  check if any file exists in ~/.mldonkey/torrents/seeded/, remove them if exist.
+#-------------------------------------------------------------------------------
 if [ -d ~/.mldonkey/torrents/seeded/ ] ; then
     if [ "$(ls -A ~/.mldonkey/torrents/seeded/)" ] ; then
         rm ~/.mldonkey/torrents/seeded/*torrent
