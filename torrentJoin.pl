@@ -24,7 +24,7 @@ use warnings;
 my$dir="/home/kk/Downloads";
 
 #open FH,"</home/kk/.mldonkey/done_before.md5";
-open FH,"</home/kk/Dropbox/torrent_done_before.md5";
+open FH,"</home/kk/Downloads/mldonkey/torrent_done_before.md5" || die $! ;
 my%md5record ;
 my$k;
 my$v;
