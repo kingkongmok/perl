@@ -21,17 +21,15 @@ set -o nounset                              # Treat unset variables as an error
 [ -r /etc/default/locale ] && . /etc/default/locale
 [ -n "$LANG" ] && export LANG
 
-set -x
+#set -x
 
-trigger=
 if [ -d ~/.mldonkey/torrents/seeded/ ] ; then
-    find ~/.mldonkey/torrents/seeded/ -type f -iname \*torrent -exec rm -f "{}" \; 
-    if [ $? == 0 ] ; then
-        trigger=1 ;
+    if [ "$(ls -A ~/.mldonkey/torrents/seeded/)" ] ; then
+        rm ~/.mldonkey/torrents/seeded/*torrent
     fi
 fi
 
-if [ $trigger ] ; then
+if [ "$(ls -A ~/Downloads/mldonkey/incoming/)" ] ; then
     mv ~/Downloads/mldonkey/incoming/* ~/Downloads/
 fi
 
