@@ -46,7 +46,7 @@ foreach my $file ( @files ) {
         print " $dir/$file 已经下载过。\n"; 
     } else {
         #qx#echo -n "$filemd5" >> /home/kk/.mldonkey/done_before.md5# ;
-        qx#echo -n "$filemd5" >> /home/kk/Dropbox/torrent_done_before.md5# ;
+        qx#echo -n "$filemd5" >> /home/kk/Downloads/mldonkey/torrent_done_before.md5# ;
         qx#mv "$dir/$file" /home/kk/.mldonkey/torrents/incoming/#;
     }
 }
