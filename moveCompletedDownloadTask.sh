@@ -28,11 +28,9 @@ set -o nounset                              # Treat unset variables as an error
 if [ -d ~/.mldonkey/torrents/seeded/ ] ; then
     if [ "$(ls -A ~/.mldonkey/torrents/seeded/)" ] ; then
         rm ~/.mldonkey/torrents/seeded/*torrent
-        if [ "$(ls -A ~/Downloads/mldonkey/incoming/)" ] ; then
-            mv ~/Downloads/mldonkey/incoming/* ~/Downloads/
-        fi
-    else
-        exit 0
+    fi
+    if [ "$(ls -A ~/Downloads/mldonkey/incoming/)" ] ; then
+        mv ~/Downloads/mldonkey/incoming/* ~/Downloads/
     fi
 else
     echo '~/.mldonkey/torrents/seeded not found.'
