@@ -21,7 +21,6 @@ set -o nounset                              # Treat unset variables as an error
 [ -r /etc/default/locale ] && . /etc/default/locale
 [ -n "$LANG" ] && export LANG
 
-#set -x
 
 #-------------------------------------------------------------------------------
 #  check if any file exists in ~/.mldonkey/torrents/seeded/, remove them if exist.
@@ -29,10 +28,14 @@ set -o nounset                              # Treat unset variables as an error
 if [ -d ~/.mldonkey/torrents/seeded/ ] ; then
     if [ "$(ls -A ~/.mldonkey/torrents/seeded/)" ] ; then
         rm ~/.mldonkey/torrents/seeded/*torrent
+        if [ "$(ls -A ~/Downloads/mldonkey/incoming/)" ] ; then
+            mv ~/Downloads/mldonkey/incoming/* ~/Downloads/
+        fi
+    else
+        exit 0
     fi
-fi
-
-if [ "$(ls -A ~/Downloads/mldonkey/incoming/)" ] ; then
-    mv ~/Downloads/mldonkey/incoming/* ~/Downloads/
+else
+    echo '~/.mldonkey/torrents/seeded not found.'
+    exit 23
 fi
 
