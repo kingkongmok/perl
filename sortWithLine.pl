@@ -5,7 +5,7 @@
 #
 #        USAGE: ./test.pl  
 #
-#  DESCRIPTION: 
+#  DESCRIPTION: search multrilines with gsm regex option.
 #
 #      OPTIONS: ---
 # REQUIREMENTS: ---
@@ -39,6 +39,8 @@ times:  2155650
 type:   forecast, index, observe, alarm, calendar
 id:     71f520
 times:  1943';
+
+$string = $string . "\nid"; 
 
 while ( $string =~ /(id:\s+?(\w+?)\n.*?)(?=id)/gsm ) {
     print $1 if length$2 > 5;
