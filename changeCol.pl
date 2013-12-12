@@ -6,6 +6,9 @@
 #        USAGE: ./changeCol.pl  
 #
 #  DESCRIPTION:
+#  to exchange columns and rows
+#
+#   input files:
 #BJ30 26
 #BJ30 24
 #BJ30 63
@@ -23,7 +26,7 @@
 #TJ20 31
 #TJ20 35
 #
-#目标文本：
+#output：
 #
 #BJ30  SH41  SD15  TJ20
 #26    21    34    23
@@ -42,8 +45,8 @@
 #     REVISION: ---
 #===============================================================================
 
-use strict;
-use warnings;
+#use strict;
+#use warnings;
 
 my$string = "BJ30 26
 BJ30 24
@@ -63,10 +66,33 @@ TJ20 31
 TJ20 35
 ";
 
-my@array=split"\n",$string ;
+my@array = split"\n",$string ;
 my %hash ;
-
-foreach my$line ( @array ) {
-    my($k,$v)=split"\s+",$line;
-        print "$k\t$v\n" ;
+foreach  ( @array ) {
+    my($k,$v)=split" ",$_ ;
+    $hash{$k}=$v;
 }
+
+my@keys=keys%hash ;
+foreach my $key ( @keys ) {
+    foreach ( @array ) {
+        my($k,$v)=split" ",$_ ;
+        if ( $k eq $key ) {
+            push @{$key},$v ;
+        }
+    }
+}
+
+
+foreach my $key ( @keys ) {
+    print "$key\t" ;
+}
+print "\n";
+for ( my $i=0; $i<4 ; $i++  ) {
+    foreach my $key ( @keys ) {
+        print "@{$key}[$i]\t";
+    }
+    print "\n" ;
+}
+
+
