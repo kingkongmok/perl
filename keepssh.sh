@@ -23,6 +23,6 @@ set -o nounset                              # Treat unset variables as an error
 [ -r /home/kk/.kk_var ] && . /home/kk/.kk_var
 
 if [ ! "$(ps -ef | grep -e [s]sh.*10000.*${HOMEDOMAIN} )" ] ; then
-    ssh -f -N -R 10000:localhost:22 $HOMEDOMAIN
+    ssh -f -N -R 10000:localhost:22 $HOMEDOMAIN 2>/dev/null
 fi
 
