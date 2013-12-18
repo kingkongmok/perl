@@ -29,5 +29,12 @@ if [ ! "$(ps -ef | grep [m]lnet)" ] ; then
         fi
     fi
 
+    if [ -w /home/kk/.mldonkey/searches.ini.tmp ] ; then
+        if  diff /home/kk/.mldonkey/searches.ini.tmp \
+            /home/kk/.mldonkey/searches.ini.tmp > /dev/null 2>&1 ; then
+            rm /home/kk/.mldonkey/searches.ini.tmp 
+        fi
+    fi
+
     mlnet > /dev/null 2>&1 &
 fi
