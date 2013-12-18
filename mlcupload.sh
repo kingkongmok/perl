@@ -41,7 +41,7 @@ fi
 
 if [ -d $DOCLOCATION ] ; then
     sudo cp -a $LOCATEFILE $DOCLOCATION &&\
-    sudo chown kk:kk $DOCFILE &&\
+    sudo chown ${USER}:${USER} $DOCFILE &&\
     gpg -e -r kingkongmok@gmail.com $DOCFILE &&\
     shred -u $DOCFILE &&\
     mv $DOCGPGFILE ~/Dropbox/Documents/personal/
