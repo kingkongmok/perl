@@ -28,7 +28,8 @@ my $lang = $cgi->param("name");
 my @array; 
 
 if ( $lang ) {
-    open my $fh, "< /home/kk/Downloads/2000/2000W/all.csv ";
+    #open my $fh, "< /home/kk/Downloads/2000/2000W/all.csv ";
+    open my $fh, "< /home/kk/Documents/inn.csv" ;
     while ( <$fh> ) {
         print $_ . "<br>" if $_ =~ $lang ;
     }

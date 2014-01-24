@@ -19,7 +19,6 @@
 
 set -o nounset                              # Treat unset variables as an error
 
-
  umask 077
  max_lines=10000
 
