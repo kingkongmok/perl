@@ -36,7 +36,7 @@ my $fileToDown= $filesList[-1];
 my $fileLength = &getDownloadFileLength ;
 
 if ( $fileLength > 21071070208 ) {
-    system("mv /var/spool/samba/kk/9.19_database_backup/latest.bak /var/spool/samba/kk/9.19_database_backup/yesterday.bak");
+    system("mv /var/spool/samba/kk/9.19_database_backup/latest.bak /var/spool/samba/kk/9.19_database_backup/yesterday.bak") == 0 or die "move failed";
     system("curl -s http://192.9.9.19:81/$fileToDown -o /var/spool/samba/kk/9.19_database_backup/latest.bak") ;
 }
 else {
