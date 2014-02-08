@@ -26,6 +26,7 @@ DROPXBOXLOCATE=
 DOCLOCATION=/home/kk/Documents/personal
 DOCFILE=/home/kk/Documents/personal/mlocate.db
 DOCGPGFILE=/home/kk/Documents/personal/mlocate.db.gpg
+USER=kk
 
 
 #if [ ! "$(id $USER | grep mlocate)" ] ; then
