@@ -1,11 +1,11 @@
 #!/usr/bin/perl
 #===============================================================================
 #
-#         FILE: chechWebsite.pl
+#         FILE: chechPrinter.pl
 #
-#        USAGE: ./chechWebsite.pl  
+#        USAGE: ./chechPrinter.pl  
 #
-#  DESCRIPTION: check if a website is served.
+#  DESCRIPTION: check printer status ;
 #
 #      OPTIONS: ---
 # REQUIREMENTS: ---
@@ -14,7 +14,7 @@
 #       AUTHOR: Kingkong Mok (), kingkongmok AT gmail DOT com
 #      COMPANY: 
 #      VERSION: 1.0
-#      CREATED: 02/26/2014 09:32:40 AM
+#      CREATED: 03/03/2014 09:33:56 AM
 #     REVISION: ---
 #===============================================================================
 
@@ -22,39 +22,41 @@ use strict;
 use warnings;
 
 require LWP::UserAgent;
+require LWP::Simple;
 use HTTP::Response ;
 use Mail::Sendmail ;
-#use HTTP::Headers ;
-#use File::Temp ;
 use DateTime;
 
+
 my @websites = qw( 
-    http://www.igrandbuy.com/
+    https://192.1.6.110/
 );
-my $tomailuser='13725269365@139.com';
+my $tomailuser='kk@gentoo.kk.igb';
 my $frommailuser='kk@gentoo.kk.igb';
 
 our $dt = DateTime->now ;
-our $lockfile = "/tmp/checkWebsite.lock" ;
+our $lockfile = "/tmp/checkPrinter.lock" ;
 my $ua = LWP::UserAgent->new;
-$ua->timeout(10);
+
+#-------------------------------------------------------------------------------
+#  http://stackoverflow.com/questions/336575/can-i-force-lwpuseragent-to-accept-an-expired-ssl-certificate
+#   Can I force LWP::UserAgent to accept an expired SSL certificate?
+#-------------------------------------------------------------------------------
+$ua->ssl_opts(verify_hostname => 0,
+              SSL_verify_mode => 0x00); 
 
 foreach my $website ( @websites ) {
     my $response = $ua->get($website);
     if ( $response->is_success ) {
-        my $headerlength = $response->header("Content-Length") ;
-        if ( $headerlength < 10000000 ) {
-#        if ( $headerlength < 160000 ) {
-             mailError("$website Content Length is $headerlength");
-         }
-         else {
-            if ( -e $lockfile ) {
-                unlink($lockfile);
-            }
-         }
+        if ( $response->content =~ /LaserJet P2055d/ ) {
+            unlink($lockfile);
+        }
+        else {
+             mailError("HP2055 printer is not attached."); 
+        }
     }
     else {
-         mailError("$website is not response."); 
+         mailError("the printer server is unfunc"); 
     }
 }
 
