@@ -21,17 +21,51 @@
 use strict;
 use warnings;
 use CGI ;
-my $cgi = new CGI ;
+use DBI;
+use CGI::Carp qw/fatalsToBrowser/;
+use utf8 ;
 
-print $cgi->header(-charset=>"utf-8");
-my $lang = $cgi->param("name");
-my @array; 
+my $request = new CGI ;
+my $name = $request->param("name");
+print $request->header(-charset=>"utf-8"),
+$request->start_html("thanks for using inncheck");
+if ( $name ) {
+    my $dsn = "dbi:mysql:test" ;
+    my $user = "kk" ;
+    my $password = "kk" ;
+    my $dbh = DBI->connect($dsn, $user, $password,  {AutoCommit=>0, RaiseError=>1}) || die "connect error";
+    my %result = query($dbh, "$name");
+    my $row = $result{row};
+    my $rowarray = $result{detail} ;
+    print $request->p("there are $row rows .") ;
 
-if ( $lang ) {
-    #open my $fh, "< /home/kk/Downloads/2000/2000W/all.csv ";
-    open my $fh, "< /home/kk/Documents/inn.csv" ;
-    while ( <$fh> ) {
-        print $_ . "<br>" if $_ =~ $lang ;
-    }
+
+    use Data::Dumper;
+    print Dumper(\$rowarray);
+
+
 }
+else {
+    print $request->p("please insert the name");
+}
+print $request->end_html;
+
+
+sub query {
+    my ($dbh, $name ) = @_ ;
+    my $sth = $dbh->prepare("SELECT Name, CtfId, Address, Mobile FROM inn WHERE Name like ?");
+    #Emy $sth = $dbh->prepare("SELECT Name WHERE Name like ?");
+    $sth->execute( "%$name%" ) or die $DBI::errstr;
+    my $row = $sth->rows;
+    my @rowarray ;
+    my $iterator = 0 ;
+    while ( my @row = $sth->fetchrow_array() ) {
+        $rowarray[$iterator] = join";",@row ;
+        $iterator++ ;
+    }
+    $sth->finish(); 
+    my %result = (row=>$row,  detail=>\@rowarray) ;
+    return ( %result );
+
+} ## --- end sub query
 
