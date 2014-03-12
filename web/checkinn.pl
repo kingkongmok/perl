@@ -34,15 +34,8 @@ if ( $name ) {
     my $user = "kk" ;
     my $password = "kk" ;
     my $dbh = DBI->connect($dsn, $user, $password,  {AutoCommit=>0, RaiseError=>1}) || die "connect error";
-    my %result = query($dbh, "$name");
-    my $row = $result{row};
-    my $rowarray = $result{detail} ;
+    my ($row, @rowarray ) = query($dbh, "$name");
     print $request->p("there are $row rows .") ;
-
-
-    use Data::Dumper;
-    print Dumper(\$rowarray);
-
 
 }
 else {
@@ -52,6 +45,7 @@ print $request->end_html;
 
 
 sub query {
+    my %result ; 
     my ($dbh, $name ) = @_ ;
     my $sth = $dbh->prepare("SELECT Name, CtfId, Address, Mobile FROM inn WHERE Name like ?");
     #Emy $sth = $dbh->prepare("SELECT Name WHERE Name like ?");
@@ -59,13 +53,11 @@ sub query {
     my $row = $sth->rows;
     my @rowarray ;
     my $iterator = 0 ;
-    while ( my @row = $sth->fetchrow_array() ) {
-        $rowarray[$iterator] = join";",@row ;
+    while ( my @rows = $sth->fetchrow_array()) {
+        $rowarray[$iterator] = join";",@rows ;
         $iterator++ ;
     }
     $sth->finish(); 
-    my %result = (row=>$row,  detail=>\@rowarray) ;
-    return ( %result );
-
+    return ( $row, @rowarray );
 } ## --- end sub query
 

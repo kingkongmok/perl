@@ -25,15 +25,46 @@ use DBI;
 my $dsn = "dbi:mysql:test" ;
 my $user = "kk" ;
 my $password = "kk" ;
+sub query {
+    my ($dbh, $name ) = @_ ;
+    my $sth = $dbh->prepare("SELECT id, name,
+                sex, birth FROM user WHERE name like ?");
+    $sth->execute( "%$name%" ) or die $DBI::errstr;
+    print "Number of rows found :" , $sth->rows, "\n";
+    while (my @row = $sth->fetchrow_array()) {
+       my ($id, $name, $age, $birth ) = @row;
+       print "id : $id, name: $name \n";
+    }
+    $sth->finish(); 
+} ## --- end sub query
+
 
 my $dbh = connectDBI($dsn, $user, $password);
-query($dbh, "name");
-insert($dbh, "name2", "f", "1921-1-2");
-query($dbh, "name");
-&delete($dbh, "name2");
-query($dbh, "name");
-update($dbh, 13, "name2", "f", "1921-1-3");
-query($dbh, "name");
+#query($dbh, "name");
+#insert($dbh, "name2", "f", "1921-1-2");
+#query($dbh, "name");
+#&delete($dbh, "name2");
+#query($dbh, "name");
+#update($dbh, 13, "name2", "f", "1921-1-3");
+#query($dbh, "name");
+#-------------------------------------------------------------------------------
+#  check foreach (@{$sth->{NAME}}) http://www.easysoft.com/developer/languages/perl/tutorial_data_web.html
+#-------------------------------------------------------------------------------
+
+sub arrayfromquery {
+    my ($dbh, $name ) = @_ ;
+    my $sth = $dbh->prepare("SELECT id, name,
+                sex, birth FROM user WHERE name like ?");
+    $sth->execute( "%$name%" ) or die $DBI::errstr;
+    foreach (@{$sth->{NAME}}) {
+            my %rowh;
+            $rowh{HEADING} = $_;
+            push @headings, \%rowh;
+}
+    $sth->finish(); 
+} ## --- end sub query
+
+
 
 
 $dbh->disconnect() ;
