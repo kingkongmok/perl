@@ -1,11 +1,11 @@
 #!/bin/bash - 
 #===============================================================================
 #
-#          FILE: mlcupload.sh
+#          FILE: uploadfile_pwsafedb.sh
 # 
-#         USAGE: ./mlcupload.sh 
+#         USAGE: ./uploadfile_pwsafedb.sh 
 # 
-#   DESCRIPTION: use gpg encrypt the mlocate.db and put it into dropbox.
+#   DESCRIPTION: use gpg encrypt the pwsafe.dat and put it into dropbox.
 # 
 #       OPTIONS: ---
 #  REQUIREMENTS: ---
@@ -20,12 +20,13 @@
 set -o nounset                              # Treat unset variables as an error
 [ -r /etc/default/locale ] && . /etc/default/locale
 [ -n "$LANG" ] && export LANG
+set -x
 
-LOCATEFILE=/var/lib/mlocate/mlocate.db
+LOCATEFILE=/home/kk/.pwsafe.dat
 DROPXBOXLOCATE=
 DOCLOCATION=/home/kk/Documents/personal
-DOCFILE=/home/kk/Documents/personal/mlocate.db
-DOCGPGFILE=/home/kk/Documents/personal/mlocate.db.gpg
+DOCFILE=/home/kk/Documents/personal/.pwsafe.dat
+DOCGPGFILE=/home/kk/Documents/personal/.pwsafe.dat.gpg
 USER=kk
 
 
@@ -47,5 +48,4 @@ if [ -d $DOCLOCATION ] ; then
     shred -u $DOCFILE &&\
     mv $DOCGPGFILE ~/Dropbox/Documents/personal/
 fi
-
 
