@@ -44,7 +44,6 @@ if (@ARGV) {
         exit 24 ;
     }
     rename $name, $unescapename ;
-    #print "rename from $name to $unescapename ";
 
 } else {
     print q{usage: ./unescape_filename FILENAME};
