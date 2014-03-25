@@ -1,11 +1,11 @@
 #!/usr/bin/perl
 #===============================================================================
 #
-#         FILE: address.pl
+#         FILE: test.pl
 #
-#        USAGE: ./address.pl  
+#        USAGE: ./test.pl  
 #
-#  DESCRIPTION: check physical address from ip138.com
+#  DESCRIPTION: G
 #
 #      OPTIONS: ---
 # REQUIREMENTS: ---
@@ -14,15 +14,22 @@
 #       AUTHOR: Kingkong Mok (), kingkongmok AT gmail DOT com
 #      COMPANY: 
 #      VERSION: 1.0
-#      CREATED: 03/20/2014 02:45:45 PM
+#      CREATED: 03/21/2014 11:21:31 AM
 #     REVISION: ---
 #===============================================================================
 
 use strict;
 use warnings;
 
-my @result = qx#curl -s "http://www.ip138.com/ips138.asp?ip=@ARGV&action=2" | iconv -f gbk -t utf8# ;
-foreach my $line (@result)  {
-    print "@ARGV\t$1\n" if $line =~ /数据：(.*?)\</ ;
-}
+while ( <> ) {
+    chomp ;
+    if ( /(?<words>\b\w*a\b)/ ) {
+        print "match: |$`<$&>$'|\n" ;
+        print "'words' contains '$+{words}'\n";
 
+        use Data::Dumper;
+        print Dumper(\%+);
+
+    }
+
+}
