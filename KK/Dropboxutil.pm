@@ -13,17 +13,18 @@ $VERSION     = 1.00;
 
 
 sub dismissDropboxLocation {
-use File::Basename ;
-my	( $fullname )	= @_;
-my ($name,$path, $suffix) = fileparse($fullname, qr/\.[^.]*/);
-if ( $path =~ /^\.\// ) {
-    return $ENV{'PWD'} . $name . $suffix =~ s#/home/kk/Dropbox/#/home/kk/#r;
-}
-else {
-    my $newpath =  $path =~ s#/home/kk/Dropbox/#/home/kk/#r;
-    return $newpath . $name. $suffix ;
-}
-    
+    use File::Basename ;
+    my	( $fullname )	= @_;
+    my ($name,$path, $suffix) = fileparse($fullname, qr/\.[^.]*/);
+    if ( $path =~ /^\.\// ) {
+        return $ENV{'PWD'} . $name . $suffix 
+        =~ s#/home/kk/Dropbox/#/home/kk/#r;
+    }
+    else {
+        my $newpath =  $path =~ 
+        s#/home/kk/Dropbox/#/home/kk/#r;
+        return $newpath . $name. $suffix ;
+    }
 }
 
 

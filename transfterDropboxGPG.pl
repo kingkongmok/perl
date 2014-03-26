@@ -26,7 +26,7 @@ use KK::Dropboxutil ;
 
 
 sub gpgTriger {
-    my ( $file ) = @ARGV ;
+    my ( $file ) = @_ ;
     if ( -r $file ) {
         my ($name,$path,$suffix) = fileparse($file, qr/\.[^.]*/);
         if ( $suffix eq '.asc' ) {
@@ -36,24 +36,36 @@ sub gpgTriger {
             encrypt($file) ;
         }
     }
-    else {
-        print q{usage: ./transfer.pl FILENAME};
-    }
 } ## --- end sub gpgTriger
 
 
 sub dropbox_changename {
-    my ( $file ) = @ARGV ;
-    if ( -r $file ) {
-        my $outputfile =  dismissDropboxLocation($file);
-        if ( -e $outputfile ) {
-            print qq#going to overwriter $outputfile# ;
-        }
-        else {
-            print qq#$outputfile is not exits #;
-        }
-        
-    }
+    my ( $file ) = @_ ;
+    my $outputfile =  dismissDropboxLocation($file);
+#    if ( -e $outputfile ) {
+#        print qq#going to overwriter $outputfile# ;
+#    }
+#    else {
+#        print qq#$outputfile is not exits #;
+#    }
 } ## --- end sub dropbox_changename
 
-dropbox_changename ;
+
+if ( @ARGV ) {
+    my ( $file ) = @ARGV ;
+    if ( -e $file ) {
+        dropbox_changename($file) ;
+    }
+    else {
+        print qq#$file not found.\n#
+    }
+}
+else {
+    print qq#usage: $ENV{_} FILENAME\n# ;
+}
+
+
+
+#use Data::Dumper;
+#print Dumper(\%ENV);
+
