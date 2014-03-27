@@ -21,40 +21,28 @@
 use strict;
 use warnings;
 use File::Basename ;
+use File::Spec;
+use lib '/home/kk/workspace/perl';
 use KK::Gpgutil ;
 use KK::Dropboxutil ;
 
 
-sub gpgTriger {
-    my ( $file ) = @_ ;
-    if ( -r $file ) {
-        my ($name,$path,$suffix) = fileparse($file, qr/\.[^.]*/);
-        if ( $suffix eq '.asc' ) {
-            decrypt($file) ;
-        }
-        else {
-            encrypt($file) ;
-        }
-    }
-} ## --- end sub gpgTriger
-
-
-sub dropbox_changename {
-    my ( $file ) = @_ ;
-    my $outputfile =  dismissDropboxLocation($file);
-#    if ( -e $outputfile ) {
-#        print qq#going to overwriter $outputfile# ;
-#    }
-#    else {
-#        print qq#$outputfile is not exits #;
-#    }
-} ## --- end sub dropbox_changename
-
 
 if ( @ARGV ) {
     my ( $file ) = @ARGV ;
-    if ( -e $file ) {
-        dropbox_changename($file) ;
+    if ( -f $file ) {
+        if ( -r $file ) {
+            my $filename = File::Spec->rel2abs($file);
+            my ($name,$path,$suffix) = fileparse($filename, qr/\.[^.]*/);
+            if ( $suffix eq '.asc' ) {
+                my $outputfile = dismissDropboxLocation($filename);
+                decrypt($filename, $outputfile);
+            }
+            else {
+            my $outputfile = addDropboxLocation($filename) ;
+                encrypt($filename, $outputfile) ;
+            }
+        }
     }
     else {
         print qq#$file not found.\n#
@@ -63,9 +51,3 @@ if ( @ARGV ) {
 else {
     print qq#usage: $ENV{_} FILENAME\n# ;
 }
-
-
-
-#use Data::Dumper;
-#print Dumper(\%ENV);
-

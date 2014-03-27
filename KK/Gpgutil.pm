@@ -1,32 +1,27 @@
 use strict;
 use warnings;
- 
-use Exporter;
-use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-
-$VERSION     = 1.00;
-@ISA         = qw(Exporter);
-@EXPORT      = ();
-#@EXPORT_OK   = qw(func1 func2);
-#%EXPORT_TAGS = ( DEFAULT => [qw(&func1)],
-#                 Both    => [qw(&func1 &func2)]);
-
+#use File::Copy;
+use File::Copy::Recursive qw/rmove/;
 our $gpgusername = "kk_blog" ;
 
-sub decrypt {
-    use File::Basename ;
+sub decrypt($$) {
     my	( $inputfile, $outputfile )	= @_;
-    my ($name,$path,$suffix) = fileparse($inputfile, qr/\.[^.]*/);
-    my $newfile = "$path" . "$name" ;
-#    my $result = qx#/usr/bin/gpg -u kk_blog -d $file #; 
-    print $newfile ;
-    return ;
+    print $outputfile ;
+    open ( my $filehandle, ">", $outputfile ) or die "$!";
+    print $filehandle qx#/usr/bin/gpg -u kk_blog -d $inputfile#; 
+    close $filehandle;
+    print "$outputfile saved\n";
+
 } ## --- end sub decrypt
 
-sub encrypt {
-    my	( $inputfile, $outputfile )	= @_;
+sub encrypt($$) {
+    my	( $inputfile , $outputfile )	= @_;
+    my $ascFilename = $inputfile . ".asc" ;
     qx#/usr/bin/gpg -ea -r $gpgusername $inputfile#; 
-    return ;
+    rmove($ascFilename,$outputfile) || die $!;
+    print "$outputfile saved\n";
+
+    
 } ## --- end sub decrypt
 
 1;
