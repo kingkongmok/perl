@@ -25,6 +25,8 @@ use File::Spec;
 use lib '/home/kk/workspace/perl';
 use KK::Gpgutil ;
 use KK::Dropboxutil ;
+use Getopt::Std;
+
 
 my %gpgVaris = (
     gpgUser=>'kingkongmok@gmail.com'
@@ -53,10 +55,71 @@ sub transfer {
             }
         }
         else {
-            print qq#$file not found.\n#
+            my %opts ;
+            getopts('c', \%opts); 
+            if ( $opts{c} ) {
+                &checkNewerFile;
+            }
+            else {
+                print qq#$file not found.\n#
+            }
+            
         }
     }
     else {
-        print qq#usage: $ENV{_} FILENAME\n# ;
+        #print qq#usage: $ENV{_} FILENAME\n# , qq#\t$ENV{_} -a  TO CHECKNEWFILE#;
+        &usage ;
     }
 } ## --- end sub transfer
+
+sub checkNewerFile {
+    my	( $par1 )	= @_;
+    my %hashFiles = &checkDropboxUpdateFile;
+        
+    while ( my ($ascFile, $localFile) = each %hashFiles ) {
+        
+        if ( -e $localFile ) {
+            if ( +(stat($localFile))[9] < +(stat($ascFile))[9] ) {
+                print "dropbox \"$ascFile\" is newer, ",
+                "pull it?<y/[N]>\n";
+                chomp(my $ifcopy = <STDIN>);
+                if ( $ifcopy eq 'y' ) {
+                    decrypt($ascFile, $localFile, \%gpgVaris);
+                }
+            }
+            else {
+                print "local file \"$localFile\" is newer, ",
+                "push it?<y/[N]>\n";
+                chomp(my $ifcopy = <STDIN>);
+                if ( $ifcopy eq 'y' ) {
+                    encrypt($localFile, $ascFile, \%gpgVaris);
+                }
+            }
+            
+        }
+        else {
+            print "local file \"$localFile\" is not exists.\n";  
+            decrypt($ascFile, $localFile, \%gpgVaris);
+                print "file \"$ascFile\" is merged, ",
+                "delete it?<y/[N]>\n";
+                chomp(my $ifcopy = <STDIN>);
+                if ( $ifcopy eq 'y' ) {
+                    unlink $ascFile;
+                }
+        }
+    }
+
+
+    return ;
+} ## --- end sub checkNewerFile
+
+sub usage {
+my $usageMessage = <<END;
+usage: $ENV{_} [OPTIONS] [FILENAME]
+    opts: 
+        -c    check newer file.
+END
+;
+    print $usageMessage ;
+} ## --- end sub usage
+    
