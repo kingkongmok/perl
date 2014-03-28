@@ -19,7 +19,7 @@ sub decrypt($$%) {
 
     #save to outputfile.
     open ( my $filehandle, ">", $outputfile ) or die "$!";
-    print $filehandle qx#/usr/bin/gpg -u $gpgUser -d $inputfile#; 
+    print $filehandle qx#/usr/bin/gpg -u $gpgUser -d "$inputfile"#; 
     close $filehandle;
     print "$outputfile saved\n";
 
@@ -39,7 +39,7 @@ sub encrypt($$%) {
     my	( $inputfile , $outputfile , $gpgVaris)	= @_;
     my $gpgUser = $gpgVaris->{gpgUser};
     my $ascFilename = $inputfile . ".asc" ;
-    qx#/usr/bin/gpg -ea -r $gpgUser $inputfile#; 
+    qx#/usr/bin/gpg -ea -r $gpgUser "$inputfile"#; 
 
     #File::Copy::Recursive->rmove() will make parent directories as needed.
     rmove($ascFilename,$outputfile) || die $!;
