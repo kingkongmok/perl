@@ -19,7 +19,7 @@ sub decrypt($$%) {
 
     #save to outputfile.
     open ( my $filehandle, ">", $outputfile ) or die "$!";
-    print $filehandle qx#/usr/bin/gpg -u $gpgUser -d "$inputfile"#; 
+    print $filehandle system('/usr/bin/gpg -u $gpgUser -d "$inputfile"'); 
     close $filehandle;
     print "$outputfile saved\n";
 
