@@ -47,20 +47,33 @@ sub getMd5File {
 } ## --- end sub getMd5File
 
 sub mlocateSearch {
+    my	( $keyword )	= @_;
+    my %mlocateResult;
     my $mlocatedbDropboxLocation = '/home/kk/Dropbox/home/kk/Documents/personal/mlocate.db.asc' ;
-    my $mlocatedbLocalLocation = '/home/kk/Documents/personal/mlocate.db';
-    my %gpgVaris = (
-        gpgUser=>'kingkongmok@gmail.com'
-    );
-    decrypt($mlocatedbDropboxLocation, $mlocatedbLocalLocation, \%gpgVaris);
-    my %mlocateResult = &getMlocateResults(\@_, $mlocatedbLocalLocation);
+    my $mlocatedbLocation = '/home/kk/Documents/personal/mlocate.db' ;
+    system("/home/kk/bin//transfterDropboxGPG.pl /home/kk/Dropbox/home/kk/Documents/personal/mlocate.db.asc");
+    foreach my $word ( @{$keyword} ) {
+        my @mlocateResult = system("locate -d /home/kk/Documents/personal/mlocate.db -i -r $word");
+        $mlocateResult{$word}=[@mlocateResult];
+    }
     return %mlocateResult;
 } 
 
 sub md5FileSearch {
+    my %md5Result;
     my	( $keyword )	= @_;
     my $md5File= '/home/kk/Dropbox/Downloads/mldonkey/torrent_done_before.md5';
-    return ;
+    if ( -r $md5File ) {
+        foreach my $word ( @{$keyword} ) {
+            my @md5Result;
+            open my $fh , "< $md5File";
+            while ( <$fh> ) {
+                push @md5Result,$_ if /$word/i ;
+            }
+            $md5Result{$word}=[@md5Result];
+        }
+    }
+    return %md5Result;
 } ## --- end sub md5FileSearch
 
 

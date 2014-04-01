@@ -18,9 +18,11 @@ sub decrypt($$%) {
     my $gpgUser = $gpgVaris->{gpgUser} ;
 
     #save to outputfile.
-    open ( my $filehandle, ">", $outputfile ) or die "$!";
-    print $filehandle system('/usr/bin/gpg -u $gpgUser -d "$inputfile"'); 
-    close $filehandle;
+#    open ( my $filehandle, ">", $outputfile ) or die "$!";
+#    print $filehandle system('/usr/bin/gpg -u $gpgUser -d "$inputfile"'); 
+#    close $filehandle;
+
+    system("/usr/bin/gpg -u $gpgUser -d $inputfile > $outputfile");
     print "$outputfile saved\n";
 
 } ## --- end sub decrypt
