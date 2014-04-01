@@ -1,25 +1,6 @@
-#!/usr/bin/perl
-#===============================================================================
-#
-#         FILE: MyScript.pl
-#
-#        USAGE: ./MyScript.pl  
-#
-#  DESCRIPTION: 
-#
-#      OPTIONS: ---
-# REQUIREMENTS: ---
-#         BUGS: ---
-#        NOTES: ---
-#       AUTHOR: Kingkong Mok (), kingkongmok AT gmail DOT com
-#      COMPANY: 
-#      VERSION: 1.0
-#      CREATED: 11/25/2013 04:43:29 PM
-#     REVISION: ---
-#===============================================================================
+#!/usr/bin/perl -w
 
 use strict;
-use warnings;
 
 # you may need to set @INC here (see below)
 

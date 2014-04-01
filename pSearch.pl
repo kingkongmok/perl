@@ -26,7 +26,7 @@ use KK::Mlocate;
 
 sub usage {
 print <<END
-usage: pSearch.pl FILENAME
+usage: pSearch.pl pattern..
 END
 ;
 } ## --- end sub usage
@@ -47,7 +47,7 @@ sub getMd5File {
 } ## --- end sub getMd5File
 
 sub mlocateSearch {
-    my $mlocatedbDropboxLocation = '/home/kk/Dropbox/Documents/personal/mlocate.db.gpg';
+    my $mlocatedbDropboxLocation = '/home/kk/Dropbox/home/kk/Documents/personal/mlocate.db.asc' ;
     my $mlocatedbLocalLocation = '/home/kk/Documents/personal/mlocate.db';
     my %gpgVaris = (
         gpgUser=>'kingkongmok@gmail.com'
@@ -55,24 +55,22 @@ sub mlocateSearch {
     decrypt($mlocatedbDropboxLocation, $mlocatedbLocalLocation, \%gpgVaris);
     my %mlocateResult = &getMlocateResults(\@_, $mlocatedbLocalLocation);
     return %mlocateResult;
-} ## --- end sub md5FileSearch
+} 
 
 sub md5FileSearch {
     my	( $keyword )	= @_;
-    my $mlocatedbDropboxLocation = '/home/kk/Dropbox/Documents/personal/mlocate.db.gpg';
-    my $mlocatedbLocalLocation = '/home/kk/Documents/personal/mlocate.db';
-    my %gpgVaris = (
-        gpgUser=>'kingkongmok@gmail.com'
-    );
-    decrypt($mlocatedbDropboxLocation, $mlocatedbLocalLocation, \%gpgVaris);
+    my $md5File= '/home/kk/Dropbox/Downloads/mldonkey/torrent_done_before.md5';
     return ;
 } ## --- end sub md5FileSearch
 
-&md5FileSearch ;
 
 if ( @ARGV ) {
+    my %md5FileResult = &md5FileSearch(\@ARGV) ;
     my %mlocateResult = &mlocateSearch(\@ARGV) ;
 use Data::Dumper;
+
+
+print Dumper(\%md5FileResult);
 print Dumper(\%mlocateResult);
 
 }
