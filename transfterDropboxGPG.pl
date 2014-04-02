@@ -29,8 +29,8 @@ use Getopt::Std;
 
 
 my %gpgVaris = (
-#    gpgUser=>'kingkongmok@gmail.com'
-    gpgUser=>'kk_blog'
+    gpgUser=>'kingkongmok@gmail.com'
+#    gpgUser=>'kk_blog'
 );
 
 &transfer ;
