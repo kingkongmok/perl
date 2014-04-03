@@ -16,13 +16,14 @@ use File::Copy::Recursive qw/rmove/;
 sub decrypt($$%) {
     my	( $inputfile, $outputfile , $gpgVaris )	= @_;
     my $gpgUser = $gpgVaris->{gpgUser} ;
+    my $gpgCommand = "/usr/bin/gpg -u '$gpgUser' -d '$inputfile' > '$outputfile'";
 
     #save to outputfile.
 #    open ( my $filehandle, ">", $outputfile ) or die "$!";
 #    print $filehandle system('/usr/bin/gpg -u $gpgUser -d "$inputfile"'); 
 #    close $filehandle;
 
-    system("/usr/bin/gpg -u $gpgUser -d $inputfile > $outputfile");
+    system($gpgCommand);
     print "$outputfile saved\n";
 
 } ## --- end sub decrypt
