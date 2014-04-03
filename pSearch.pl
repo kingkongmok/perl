@@ -53,7 +53,8 @@ sub mlocateSearch {
     my $mlocatedbLocation = '/home/kk/Documents/personal/mlocate.db' ;
     system("/home/kk/bin//transfterDropboxGPG.pl /home/kk/Dropbox/home/kk/Documents/personal/mlocate.db.asc");
     foreach my $word ( @{$keyword} ) {
-        my @mlocateResult = system("locate -d /home/kk/Documents/personal/mlocate.db -i -r $word");
+        my $searchCommand = "locate -d /home/kk/Documents/personal/mlocate.db -i -r '$word'";
+        my @mlocateResult = system($searchCommand);
         $mlocateResult{$word}=[@mlocateResult];
     }
     return %mlocateResult;
