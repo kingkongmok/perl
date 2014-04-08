@@ -45,7 +45,7 @@ if [ -d $DOCLOCATION ] ; then
     sudo chown ${USER}:${USER} $DOCFILE &&\
     gpg -e -r kingkongmok@gmail.com $DOCFILE &&\
     shred -u $DOCFILE &&\
-    mv $DOCGPGFILE ~/Dropbox/Documents/personal/
+    mv $DOCGPGFILE /home/kk/Dropbox/home/kk/Documents/personal/mlocate.db.asc
 fi
 
 
