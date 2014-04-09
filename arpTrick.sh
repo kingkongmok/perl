@@ -5,7 +5,8 @@
 # 
 #         USAGE: ./arpTrick.sh IP MAC
 # 
-#   DESCRIPTION: arpoison the client.
+#   DESCRIPTION: arpoison the client. let the client believes the printer 
+#                   is the gateway(192.1.6.254).
 # 
 #       OPTIONS: ---
 #  REQUIREMENTS: ---
