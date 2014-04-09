@@ -21,31 +21,19 @@ set -o nounset                              # Treat unset variables as an error
 [ -r /etc/default/locale ] && . /etc/default/locale
 [ -n "$LANG" ] && export LANG
 
-LOCATEFILE=/var/lib/mlocate/mlocate.db
-DROPXBOXLOCATE=
-DOCLOCATION=/home/kk/Documents/personal
-DOCFILE=/home/kk/Documents/personal/mlocate.db
-DOCGPGFILE=/home/kk/Documents/personal/mlocate.db.gpg
-USER=kk
+MLOCATEFILE=/var/lib/mlocate/mlocate.db
+LOCALFILE=/home/kk/Documents/personal/mlocate.db
+TRANSFER=/home/kk/bin//transfterDropboxGPG.pl
 
 
-#if [ ! "$(id $USER | grep mlocate)" ] ; then
-#    echo "please add user to the locate group."
-#    exit 73 ;
-#fi
 
 if [ "$(ps -ef | grep [u]pdatedb)" ] ; then
     echo "mlodatedb uplodateing please wait." ;    
     exit 74;
 fi
 
-
-if [ -d $DOCLOCATION ] ; then
-    sudo cp -a $LOCATEFILE $DOCLOCATION &&\
-    sudo chown ${USER}:${USER} $DOCFILE &&\
-    gpg -e -r kingkongmok@gmail.com $DOCFILE &&\
-    shred -u $DOCFILE &&\
-    mv $DOCGPGFILE /home/kk/Dropbox/home/kk/Documents/personal/mlocate.db.asc
-fi
+set -x
+    cp -a $MLOCATEFILE $LOCALFILE &&\
+    $TRANSFER $LOCALFILE
 
 
