@@ -51,7 +51,15 @@ sub mlocateSearch {
     my %mlocateResult;
     my $mlocatedbDropboxLocation = '/home/kk/Dropbox/home/kk/Documents/personal/mlocate.db.asc' ;
     my $mlocatedbLocation = '/home/kk/Documents/personal/mlocate.db' ;
-    system("/home/kk/bin//transfterDropboxGPG.pl /home/kk/Dropbox/home/kk/Documents/personal/mlocate.db.asc");
+    if ( -r $mlocatedbLocation && -r $mlocatedbDropboxLocation ) {
+        if ( -M $mlocatedbLocation > -M $mlocatedbDropboxLocation ) {
+            system("/home/kk/bin//transfterDropboxGPG.pl /home/kk/Dropbox/home/kk/Documents/personal/mlocate.db.asc");
+        }
+        print "not going to decrypt\n\n";
+    }
+    else {
+        system("/home/kk/bin//transfterDropboxGPG.pl /home/kk/Dropbox/home/kk/Documents/personal/mlocate.db.asc");
+    }
     foreach my $word ( @{$keyword} ) {
         my $searchCommand = "locate -d /home/kk/Documents/personal/mlocate.db -i -r '$word'";
         my @mlocateResult = system($searchCommand);
