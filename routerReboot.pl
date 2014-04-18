@@ -27,6 +27,28 @@ my%password=&getpassword;
 
 
 #===  FUNCTION  ================================================================
+#         NAME: checkIfMatchIP
+#      PURPOSE: check the current ip if match the $arg.
+#   PARAMETERS: $ipAddress
+#      RETURNS: boolean
+#  DESCRIPTION: ????
+#       THROWS: no exceptions
+#     COMMENTS: none
+#     SEE ALSO: n/a
+#===============================================================================
+sub checkIfIPDiff {
+    my	( $ipAddress )	= @_;
+    my $currentIP =  qx#/usr/bin/curl -s ip.datlet.com# ;
+    if ( $ipAddress eq $currentIP ) {
+        return 0 ;
+    }
+    else {
+        return 1;
+    }
+} ## --- end sub checkIfMatchIP
+
+
+#===  FUNCTION  ================================================================
 #         NAME: rebootRouter
 #      PURPOSE: reboot the router using curl
 #   PARAMETERS: ????
@@ -62,8 +84,9 @@ sub rebootRouter {
 
 
 #-------------------------------------------------------------------------------
-#  check if online using ping, if .
+#  do reboot the router unless connect to google.com
 #-------------------------------------------------------------------------------
+my $oldIP =  qx#/usr/bin/curl -s ip.datlet.com# ;
 my $pingtimes = 0 ;
 while ( 1 ) {
 #    print "ping $pingtimes times...\n" ;
@@ -74,13 +97,19 @@ while ( 1 ) {
     my $pingresult = system("ping -q -c1 google.com > /dev/null");
     if ( $pingresult == 0 ) {
 #        print "network is on.\n" ;
-        last ;
+        if ( &checkIfIPDiff($oldIP) ) {
+            #print "ip is not match\n";
+            last ;
+        }
     }
     else {
         sleep 3 ;
     }
 }
 
+#-------------------------------------------------------------------------------
+#  renew the ddns.
+#-------------------------------------------------------------------------------
 while ( 1 ) {
     my $htmlresult = qx#curl -q "http://$password{us}{username}:$password{kk}{password}\@members.3322.org/dyndns/update?system=dyndns&hostname=$password{us}{username}.3322.org&mx=$password{us}{username}.3322.org" 2>/dev/null #;
     if ( $htmlresult =~ /(good|nochg)\s+\d+(\.\d+){3}/ ) {
