@@ -38,7 +38,7 @@ my%password=&getpassword;
 #===============================================================================
 sub checkIfIPDiff {
     my	( $ipAddress )	= @_;
-    my $currentIP =  qx#/usr/bin/curl -s ip.datlet.com# ;
+    chomp(my $currentIP =  qx#/usr/bin/curl -s ip.datlet.com#);
     if ( $ipAddress eq $currentIP ) {
         return 0 ;
     }
@@ -86,7 +86,7 @@ sub rebootRouter {
 #-------------------------------------------------------------------------------
 #  do reboot the router unless connect to google.com
 #-------------------------------------------------------------------------------
-my $oldIP =  qx#/usr/bin/curl -s ip.datlet.com# ;
+chomp(my $oldIP =  qx#/usr/bin/curl -s ip.datlet.com#) ;
 my $pingtimes = 0 ;
 while ( 1 ) {
 #    print "ping $pingtimes times...\n" ;
