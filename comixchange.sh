@@ -18,14 +18,25 @@
 #===============================================================================
 
 set -o nounset                              # Treat unset variables as an error
-set -x
 
 TARGETHI=1450
 TARGETAVGSIZE=360
 
+function usage () {
+cat << EOF
+usage:  `basename $0` ZIPFILE to convert
+options:
+-h : show this help;
+-w : set the sleep time;
+-p : set password;
+-n : do not resize;
+EOF
+exit 3
+}
+
+
 if [ "$#" -eq 0 ] ; then
-	echo "usage: `basename $0` -h"
-	exit 3
+    usage;
 fi
 
 PASSWORD=
@@ -36,8 +47,7 @@ while getopts w:p:nh OPTIONS ; do
 	case $OPTIONS in
 
 		h)
-			echo "`basename $0` ZIPFILE to convert"
-			exit 0
+            usage;
 			;;
 		w)
 			WAITTIME="$OPTARG";
@@ -181,7 +191,6 @@ resize ()
 			done
 	fi
 }	# ----------  end of function do_resize  ----------
-
 
 tar_it ()
 {
