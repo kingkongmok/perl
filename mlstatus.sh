@@ -22,4 +22,5 @@ set -o nounset                              # Treat unset variables as an error
 [ -n "$LANG" ] && export LANG
 
 
-echo vd | nc -q 1 localhost 4040 | perl -lane 'if(/\[(B|D)/){printf "%5s%%%6s\t",@F[$#F-7,$#F-1]; print join" ",@F[6..$#F-8]}'
+#echo vd | nc -q 1 localhost 4040 | perl -lane 'if(/\[(B|D)/){printf "%5s%%%6s\t",@F[$#F-7,$#F-1]; print join" ",@F[6..$#F-8]}'
+echo vd | nc -q 1 localhost 4040 | perl -lane '$result=$_ if $.==8; if(/\[(B|D)/){printf "%5s%%%6s\t",@F[$#F-7,$#F-1]; print join" ",@F[6..$#F-8]}}{ print"\n$result"'
