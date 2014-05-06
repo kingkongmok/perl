@@ -33,6 +33,7 @@ if [ "$(ps -ef | grep [u]pdatedb)" ] ; then
 fi
 
 set -x
+    sudo updatedb &&\
     cp -a $MLOCATEFILE $LOCALFILE &&\
     $TRANSFER $LOCALFILE
 
