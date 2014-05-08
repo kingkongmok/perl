@@ -5,7 +5,8 @@
 # 
 #         USAGE:  xdialog.sh "string"
 # 
-#   DESCRIPTION:  xdialog message box.
+#   DESCRIPTION:  xdialog message box. from \
+#       http://linuxgazette.net/101/sunil.html
 # 
 #       OPTIONS:  ---
 #  REQUIREMENTS:  ---
