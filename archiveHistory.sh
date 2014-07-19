@@ -20,7 +20,7 @@
 set -o nounset                              # Treat unset variables as an error
 
  umask 077
- max_lines=10000
+ max_lines=20000
 
  linecount=$(wc -l < ~/.bash_history)
 
