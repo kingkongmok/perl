@@ -56,8 +56,8 @@ sub gpgDecrypt {
     my ($encrypted) = @_ ;
     use Crypt::GPG;
     my $gpg = new Crypt::GPG;
-    $gpg->gpgbin('/usr/bin/gpg');      # The GnuPG executable.
-    $gpg->secretkey('kingkongmok@gmail.com');     # Set ID of default secret key.
+    $gpg->gpgbin('/usr/bin/gpg');      
+    $gpg->secretkey('ayanami_0@163.com');     
     my ($plaintext) = $gpg->verify($encrypted);
     return $plaintext ;
 } ## --- end sub gpgfile
@@ -66,9 +66,9 @@ sub gpgEncrypt {
     my ( $plaintext ) = @_ ;
     use Crypt::GPG;
     my $gpg = new Crypt::GPG;
-    $gpg->gpgbin('/usr/bin/gpg');      # The GnuPG executable.
-    $gpg->secretkey('kingkongmok@gmail.com');     # Set ID of default secret key.
-    my $encrypted = $gpg->encrypt ($plaintext, 'kingkongmok@gmail.com');
+    $gpg->gpgbin('/usr/bin/gpg');    
+    $gpg->secretkey('ayanami_0@163.com');     
+    my $encrypted = $gpg->encrypt ($plaintext, 'ayanami_0@163.com');
     return $encrypted;
 } ## --- end sub gpgfile
 
