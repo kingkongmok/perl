@@ -21,35 +21,34 @@
 use strict;
 use warnings;
 use lib '/home/kk/workspace/perl';
+use File::Temp qw/ tempfile tempdir /;
+use KK::Password ;
 
-sub writeTmpFile {
-    use File::Temp qw/ tempfile tempdir /;
-    use KK::Password ;
-    my ($fh_data, $filename_data) = tempfile();
+my ($fh_data, $filename_data) = tempfile();
 
-    my $pwsafeDate = '/home/kk/.pwsafe.dat';
-    my $pwsafeDropbox_descryp='/home/kk/Dropbox/home/kk/.pwsafe.dat.asc' ;
+my $pwsafeDate = '/home/kk/.pwsafe.dat';
+my $pwsafeDropbox_descryp='/home/kk/Dropbox/home/kk/.pwsafe.dat.asc' ;
 
-    open FH_pwsEncrypted, $pwsafeDropbox_descryp || die $!;
-    open FH_tmp, ">", $filename_data || die $! ; 
-    binmode FH_tmp ;
-    my @string = readline(FH_pwsEncrypted) ;
-    close FH_pwsEncrypted ;
-    print FH_tmp &gpgDecrypt(\@string);
-    my %pws_password = &getpassword;
-    system("echo $pws_password{kk}{password} | /usr/bin/pwsafe -q --mergedb=$filename_data"); 
-    unlink $filename_data ;
-    open FH_pws , $pwsafeDate || die $!;
-    my @pwslines = readline(FH_pws);
-    my $encrypdtxt  =  &gpgEncrypt(\@pwslines);
+open FH_pwsEncrypted, "<", $pwsafeDropbox_descryp || die $!;
+my @string = readline(FH_pwsEncrypted) ;
+close FH_pwsEncrypted ;
 
-    open FH_pwsEncrypted, ">",  $pwsafeDropbox_descryp || die $! ;
-    print FH_pwsEncrypted $encrypdtxt ;
-    close FH_pwsEncrypted ;
-    return ;
-} ## --- end sub tmpFile
+open FH_tmp, ">", $filename_data || die $! ; 
+binmode FH_tmp ;
+print FH_tmp &gpgDecrypt(\@string);
+close FH_tmp  ;
 
-&writeTmpFile; 
+my %pws_password = &getpassword;
+system("echo $pws_password{kk}{password} | /usr/bin/pwsafe -q --mergedb=$filename_data"); 
+unlink $filename_data ;
+
+open FH_pws , $pwsafeDate || die $!;
+my @pwslines = readline(FH_pws);
+my $encrypdtxt  =  &gpgEncrypt(\@pwslines);
+
+open FH_pwsEncrypted, ">",  $pwsafeDropbox_descryp || die $! ;
+print FH_pwsEncrypted $encrypdtxt ;
+close FH_pwsEncrypted ;
 
 
 sub gpgDecrypt {
