@@ -19,8 +19,13 @@
 
 set -o nounset                              # Treat unset variables as an error
 
-TARGETHI=1450
-TARGETAVGSIZE=360
+# 设置高像素
+#TARGETHI=1450
+TARGETHI=1600
+
+# 设置图片的平均大小
+#TARGETAVGSIZE=360
+TARGETAVGSIZE=430
 
 function usage () {
 cat << EOF
