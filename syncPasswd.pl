@@ -42,7 +42,7 @@ my %pws_password = &getpassword;
 system("echo $pws_password{kk}{password} | /usr/bin/pwsafe -q --mergedb=$filename_data"); 
 unlink $filename_data ;
 
-open FH_pws , $pwsafeDate || die $!;
+open FH_pws , "<",  $pwsafeDate || die $!;
 my @pwslines = readline(FH_pws);
 my $encrypdtxt  =  &gpgEncrypt(\@pwslines);
 
@@ -67,7 +67,7 @@ sub gpgEncrypt {
     my $gpg = new Crypt::GPG;
     $gpg->gpgbin('/usr/bin/gpg');    
     $gpg->secretkey('ayanami_0@163.com');     
-    my $encrypted = $gpg->encrypt ($plaintext, 'ayanami_0@163.com');
+    my $encrypted = $gpg->encrypt($plaintext, 'ayanami_0@163.com') || die $! ;
     return $encrypted;
 } ## --- end sub gpgfile
 
