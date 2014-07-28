@@ -68,6 +68,5 @@ sub gpgEncrypt {
     $gpg->gpgbin('/usr/bin/gpg');    
     $gpg->secretkey('ayanami_0@163.com');     
     my $encrypted = $gpg->encrypt ($plaintext, 'ayanami_0@163.com');
-    return $encrypted;
 } ## --- end sub gpgfile
 
