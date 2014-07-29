@@ -25,7 +25,7 @@ TARGETHI=1600
 
 # 设置图片的平均大小
 #TARGETAVGSIZE=360
-TARGETAVGSIZE=430
+TARGETAVGSIZE=500
 
 function usage () {
 cat << EOF
