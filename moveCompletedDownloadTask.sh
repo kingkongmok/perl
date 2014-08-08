@@ -30,7 +30,8 @@ if [ -d ~/.mldonkey/torrents/seeded/ ] ; then
         rm ~/.mldonkey/torrents/seeded/*torrent
     fi
     if [ "$(ls -A ~/Downloads/mldonkey/incoming/)" ] ; then
-        mv ~/Downloads/mldonkey/incoming/* ~/Downloads/
+        mv ~/Downloads/mldonkey/incoming/* ~/Downloads/ \
+        && echo "\nDownloads Moves\n"
     fi
 else
     echo '~/.mldonkey/torrents/seeded not found.'
