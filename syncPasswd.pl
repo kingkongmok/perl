@@ -39,7 +39,7 @@ print FH_tmp &gpgDecrypt(\@string);
 close FH_tmp  ;
 
 my %pws_password = &getpassword;
-system("echo $pws_password{kk}{password} | /usr/bin/pwsafe -q --mergedb=$filename_data"); 
+system("echo $pws_password{kk}{password} | /usr/bin/pwsafe --mergedb=$filename_data"); 
 unlink $filename_data ;
 
 open FH_pws , "<",  $pwsafeDate || die $!;
