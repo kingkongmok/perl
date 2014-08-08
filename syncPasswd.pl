@@ -22,7 +22,7 @@ use strict;
 use warnings;
 use lib '/home/kk/workspace/perl';
 use File::Temp qw/ tempfile tempdir /;
-use KK::Password ;
+#use KK::Password ;
 
 my ($fh_data, $filename_data) = tempfile();
 
@@ -38,8 +38,14 @@ binmode FH_tmp ;
 print FH_tmp &gpgDecrypt(\@string);
 close FH_tmp  ;
 
-my %pws_password = &getpassword;
-system("echo $pws_password{kk}{password} | /usr/bin/pwsafe --mergedb=$filename_data"); 
+
+
+#-------------------------------------------------------------------------------
+#  can't merge db without interactive
+#-------------------------------------------------------------------------------
+#my %pws_password = &getpassword;
+#system("echo $pws_password{kk}{password} | /usr/bin/pwsafe --mergedb=$filename_data"); 
+system("/usr/bin/pwsafe --mergedb=$filename_data"); 
 unlink $filename_data ;
 
 open FH_pws , "<",  $pwsafeDate || die $!;
