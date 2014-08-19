@@ -1,9 +1,9 @@
 #!/bin/bash - 
 #===============================================================================
 #
-#          FILE:  zenityalarm.sh
+#          FILE:  zenityalarm.sh 
 # 
-#         USAGE:  with crontab
+#         USAGE:  with crontab for ubuntu za
 # 
 #   DESCRIPTION:  zenity warning.
 # 
