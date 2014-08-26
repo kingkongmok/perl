@@ -20,16 +20,16 @@
 set -o nounset                              # Treat unset variables as an error
 [ -r /etc/default/locale ] && . /etc/default/locale
 [ -n "$LANG" ] && export LANG
-set -x
+#set -x 
 
 #  接受报警邮件邮箱
-MAILUSER='13725269365@139.com'
+MAILUSER='ayanami_0@163.com'
 
 # 15分钟内负载的报警阀
 LOADAVERAGE_TRIGER=50
 
 # 各个分区的用量报警阀
-DF_USAGE_TRIGER=90
+DF_USAGE_TRIGER=80
 
 # 监控文件夹的名称，数组
 #WATCH_DIR=/mmsdk01/mmlog_7711/self/$(date "+%Y%m%d")
@@ -44,6 +44,9 @@ INCREASEFILENUMB_TRIGER=1
 # tomcat端口，数值
 PORT_LIST=(7711 7722 7733 7744)
 
+# 挂载点
+MOUNTPORT="mmsdk"
+
 
 
 #-------------------------------------------------------------------------------
@@ -52,7 +55,7 @@ PORT_LIST=(7711 7722 7733 7744)
 #-------------------------------------------------------------------------------
 
 TFILE="/tmp/$(basename $0).$$.tmp"
-
+IP_ADDR=`/sbin/ip a | grep -oP "(?<=inet )\S+(?=\/.*bond)"`
 
 #---  FUNCTION  ----------------------------------------------------------------
 #          NAME:  sendmail
@@ -62,13 +65,7 @@ TFILE="/tmp/$(basename $0).$$.tmp"
 #-------------------------------------------------------------------------------
 sendmail ()
 {
-    echo "Subject: `hostname` error" | cat - "$TFILE" | /usr/sbin/sendmail -f kk_richinfo@163.com -t "$MAILUSER" -s smtp.163.com -u "error" -xu kk_richinfo -xp 1q2w3e4r 
-    #cat "$TFILE" | /usr/sbin/sendmail -f kk_richinfo@163.com -t "$MAILUSER" -s smtp.163.com -u "error" -xu kk_richinfo -xp 1q2w3e4r 
-#    echo "Subject: `hostname`error" > "${TFILE}.email" 
-#    cat "$TFILE" >> "${TFILE}.email"
-#    cat "${TFILE}.email" | sendmail -f kk_richinfo@163.com -t "$MAILUSER" -s smtp.163.com -xu kk_richinfo -xp 1q2w3e4r 
-#    rm "$TFILE"
-#    rm "${TFILE}.email"
+    echo "Subject: `hostname`_"$IP_ADDR"_error" | cat - "$TFILE" | /usr/sbin/sendmail -f kk_richinfo@163.com -t "$MAILUSER" -s smtp.163.com -u "error" -xu kk_richinfo -xp 1q2w3e4r 
 }	# ----------  end of function sendmail  ----------
 
 
@@ -131,13 +128,14 @@ checkSpace ()
 checkFileStat ()
 {
     for dir in ${WATCH_DIR_LIST[@]}; do
-        WATCH_DIR=/mmsdk01/mmlog_${dir}/self/$(date "+%Y%m%d")
+        WATCH_DIR=/${MOUNTPORT}/mmlog_${dir}/self/$(date "+%Y%m%d")
         TIMESTAMPDELAY_MINS=$(((`date "+%s"`-`stat -c "%Y" "$WATCH_DIR"`)/60))
         if [ "$TIMESTAMPDELAY_MINS" -gt "$WATCH_DIR_NOTCHANG_TRIGER" ] ; then
             echo "$WATCH_DIR is not changed more than $WATCH_DIR_NOTCHANG_TRIGER minuts" >> $TFILE 
         fi
     done
 }	# ----------  end of function checkFileStat  ----------
+
 
 
 #---  FUNCTION  ----------------------------------------------------------------
@@ -149,7 +147,7 @@ checkFileStat ()
 checkIncreaseFileNumb ()
 {
     for dir in ${WATCH_DIR_LIST[@]}; do
-        WATCH_DIR=/mmsdk01/mmlog_${dir}/self/$(date "+%Y%m%d")
+        WATCH_DIR=/${MOUNTPORT}/mmlog_${dir}/self/$(date "+%Y%m%d")
     LAST_FILENUMB_LOC="/tmp/$(basename $0).${dir}.filenumb"
     FILENUMB=`stat "$WATCH_DIR" | grep Links | awk '{print $NF}'`
     INCREASENUMB=`echo $FILENUMB-$(grep -oP '^\d+(?=\s)' $LAST_FILENUMB_LOC) | bc`
