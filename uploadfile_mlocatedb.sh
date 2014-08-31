@@ -23,7 +23,7 @@ set -o nounset                              # Treat unset variables as an error
 
 MLOCATEFILE=/var/lib/mlocate/mlocate.db
 LOCALFILE=/home/kk/Documents/personal/mlocate.db
-TRANSFER=/home/kk/bin//transfterDropboxGPG.pl
+TRANSFER=/home/kk/bin/transfterDropboxGPG.pl
 
 
 
