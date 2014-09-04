@@ -50,5 +50,17 @@ errorMail ()
     echo -e $MAIL | $SENDMAIL "$MAILUSER"
 }	# ----------  end of function errorMail  ----------
 
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  sendmail
+#   DESCRIPTION:  以固定名称，发送$TFILE的内容到$MAILUSER邮箱
+#    PARAMETERS:  
+#       RETURNS:  
+#-------------------------------------------------------------------------------
+sendmail ()
+{
+    #echo "Subject: `hostname`_"$IP_ADDR"_error" | cat - "$TFILE" | /usr/sbin/sendmail -f sys.alert@139.com -t "$MAILUSER" -s smtp.163.com -xu kk_richinfo -xp 1q2w3e4r 
+    #echo "Subject: `hostname`_"$IP_ADDR"_error" | cat - "$TFILE" | /usr/sbin/sendmail  -t "$MAILUSER" -f "kk_richinfo@163.com" -s smtp.163.com -xu kk_richinfo -xp 1q2w3e4r
+    echo "Subject: `hostname`_"$IP_ADDR"" | cat - $TFILE | /usr/sbin/sendmail -f kk_richinfo@163.com -t 13725269365@139.com -s smtp.163.com -u nicemail -xu kk_richinfo -xp 1q2w3e4r -m happy
+}   # ----------  end of function sendmail  ----------
 
-errorMail
+#errorMail
